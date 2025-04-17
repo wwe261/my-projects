@@ -50,7 +50,9 @@ const homeStyles=({
         fontWeight:"bold",
         color:"#000",
         paddingLeft:"4%",
-        height:hp(8)
+        height:hp(4),
+        paddingTop:"1%",
+        paddingBottom:"2%"
     },
     searchIconWrapper:{
          justifyContent:"center",
@@ -96,31 +98,25 @@ const homeStyles=({
         fontWeight:"bold"
     },
 
-     mainContent:{
+    mainContent:{
          //borderStyle:"solid",
          //borderWidth:2,
          //borderColor:"red",
-         height:"100%",
+         flex:1,
          backgroundColor:"rgba(211,211,211,1)"
-        },
+    },
     booksContainer:{
-       //borderStyle:"solid",
-       //borderWidth:2,
-      // borderColor:"blue",
-       flexDirection:"row",
-       flexWrap:"wrap",
-       justifyContent:"space-between",
-       padding:"1%"
+       padding:"0.4%",
+       marginBottom:"12.8%"
        
     },
     booksWrapper:{
-        //borderStyle:"solid",
-        //borderWidth:2,
-        //borderColor:"black",
+        
         width:"49%",
         backgroundColor:"#fff",
-        marginTop:"2%",
-        padding:"0.5%"
+        marginTop:"1%",
+        padding:"0.5%",
+        
     },
     booksFigure:{
         //borderStyle:"solid",

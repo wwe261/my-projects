@@ -1,5 +1,6 @@
 import { View, Text,TouchableOpacity, TextInput, KeyboardAvoidingView,Platform,
-         ScrollView,TouchableWithoutFeedback,Keyboard , Image} from 'react-native'
+         ScrollView,TouchableWithoutFeedback,Keyboard , Image,
+         Dimensions} from 'react-native'
 import { useState, useEffect } from 'react';
 
 import Icon from 'react-native-vector-icons/FontAwesome5'
@@ -10,12 +11,13 @@ import animations from '../../animations/animations'
 import Searchcomponent from '../../sharedComponets/Searchcomponent'
 import Footernavigation from '../../sharedComponets/Footernavigation'
 
+
+import {contentSizeChange} from '../../sharedFunctions/ContentSizeChange'
 const Homepage = () => {
     const {displayedText,headerTextAnimation}=animations()
      headerTextAnimation()
 
      const [keyboardVisible, setKeyboardVisible] = useState(false);
-
       useEffect(() => {
       const showSub = Keyboard.addListener('keyboardDidShow', () => setKeyboardVisible(true));
       const hideSub = Keyboard.addListener('keyboardDidHide', () => setKeyboardVisible(false));
@@ -24,7 +26,10 @@ const Homepage = () => {
     showSub.remove();
     hideSub.remove();
    };
-}, []);
+     }, []);
+
+    const {scrollEnabled, handleContentSizeChange}=contentSizeChange()
+     
 
   return (<>
  <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -44,7 +49,6 @@ const Homepage = () => {
       <View style={homeStyles.categoryWrapper}>
         <Text style={homeStyles.categoryWrapperText}>SEARCH BY CATEGORY</Text>
       <ScrollView style={homeStyles.categoryButtonsWrapper}
-                  
                   horizontal
                   showsHorizontalScrollIndicator={true}
       >
@@ -72,8 +76,15 @@ const Homepage = () => {
 
       </ScrollView>
       </View>
+
       <View style={homeStyles.mainContent}>
-            <View style={homeStyles.booksContainer}>
+
+            <ScrollView 
+            style={homeStyles.booksContainer}
+            contentContainerStyle={{flexDirection:"row",flexWrap:"wrap",justifyContent:"space-between",flexDirection:"row"}}
+            scrollEnabled={scrollEnabled}  
+            onContentSizeChange={handleContentSizeChange}    
+            >
                 <View style={homeStyles.booksWrapper}>
                     <View style={homeStyles.booksFigure}>
                         <Image source={require('../../../assets/images/You by Caroline Kepnes.webp')} style={homeStyles.bookImage}/>
@@ -149,17 +160,58 @@ const Homepage = () => {
 
                 </View>
                 
-            </View>
+                <View style={homeStyles.booksWrapper}>
+                    <View style={homeStyles.booksFigure}>
+                        <Image source={require('../../../assets/images/You by Caroline Kepnes.webp')} style={homeStyles.bookImage}/>
+                    </View>
+                    <Text style={homeStyles.descriptionText}>title.......</Text>
+                    <Text style={homeStyles.descriptionText}>Author</Text>
+                    <Text style={homeStyles.descriptionText}>Price</Text>
+                    <Text style={homeStyles.descriptionText}>Category</Text>
+
+                    <View style={homeStyles.addToCartIconWrapper}>
+                        <Icon style={homeStyles.addToCartIcon}/>
+                    </View>
+
+                </View>
+
+                <View style={homeStyles.booksWrapper}>
+                    <View style={homeStyles.booksFigure}>
+                        <Image source={require('../../../assets/images/You by Caroline Kepnes.webp')} style={homeStyles.bookImage}/>
+                    </View>
+                    <Text style={homeStyles.descriptionText}>title.......</Text>
+                    <Text style={homeStyles.descriptionText}>Author</Text>
+                    <Text style={homeStyles.descriptionText}>Price</Text>
+                    <Text style={homeStyles.descriptionText}>Category</Text>
+
+                    <View style={homeStyles.addToCartIconWrapper}>
+                        <Icon style={homeStyles.addToCartIcon}/>
+                    </View>
+
+                </View>
+
+                <View style={homeStyles.booksWrapper}>
+                    <View style={homeStyles.booksFigure}>
+                        <Image source={require('../../../assets/images/You by Caroline Kepnes.webp')} style={homeStyles.bookImage}/>
+                    </View>
+                    <Text style={homeStyles.descriptionText}>title.......</Text>
+                    <Text style={homeStyles.descriptionText}>Author</Text>
+                    <Text style={homeStyles.descriptionText}>Price</Text>
+                    <Text style={homeStyles.descriptionText}>Category</Text>
+
+                    <View style={homeStyles.addToCartIconWrapper}>
+                        <Icon style={homeStyles.addToCartIcon}/>
+                    </View>
+
+                </View>
+            </ScrollView>
+
       </View>
+
    </View>
 
    <Footernavigation keyboardVisible={keyboardVisible}/>
    
-
-     
-
-
-
 </View>
 </TouchableWithoutFeedback>
      

@@ -10,12 +10,14 @@ const footerNavigationStyle=StyleSheet.create({
         position:"absolute",
         bottom:0,
         left:0,
-        right:0
+        right:0,
+    
     },
     appFooterNavigation:{
        width:"19%",
        alignItems:"center",
        justifyContent:"center",
+       
     },
     
     appFooterNavigationIconWrapper:{
