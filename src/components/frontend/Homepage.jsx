@@ -2,21 +2,28 @@ import { View, Text,TouchableOpacity, TextInput, KeyboardAvoidingView,Platform,
          ScrollView,TouchableWithoutFeedback,Keyboard , Image,
          Dimensions} from 'react-native'
 import { useState, useEffect } from 'react';
+import { useNavigation } from 'expo-router';
 
 import Icon from 'react-native-vector-icons/FontAwesome5'
 
 import homeStyles from '../../../styles/frontend/Homepage'
 
-import animations from '../../animations/animations'
+import useAnimations from '../../animations/animations'
 import Searchcomponent from '../../sharedComponets/Searchcomponent'
 import Footernavigation from '../../sharedComponets/Footernavigation'
 
 
-import {contentSizeChange} from '../../sharedFunctions/ContentSizeChange'
+import {useContentSizeChange, useContentWidthSizeChange} from '../../sharedFunctions/ContentSizeChange'
 const Homepage = () => {
-    const {displayedText,headerTextAnimation}=animations()
-     headerTextAnimation()
+    const {scrollEnabled, handleContentSizeChange}=useContentSizeChange()
+    const {scrollWidthEnabled,handleContentWidthSizeChange}=useContentWidthSizeChange()
 
+
+    const {displayedText,headerTextAnimation}=useAnimations()
+    useEffect(()=>{
+        headerTextAnimation()
+    }, [])
+     
      const [keyboardVisible, setKeyboardVisible] = useState(false);
       useEffect(() => {
       const showSub = Keyboard.addListener('keyboardDidShow', () => setKeyboardVisible(true));
@@ -27,9 +34,11 @@ const Homepage = () => {
     hideSub.remove();
    };
      }, []);
+     const navigateToaddItemScreen=()=>{
+        navigation.navigate("addItemToCartScreen")
+     }
 
-    const {scrollEnabled, handleContentSizeChange}=contentSizeChange()
-     
+    const navigation=useNavigation()
 
   return (<>
  <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -43,14 +52,19 @@ const Homepage = () => {
             <Icon name="book-open" style={homeStyles.homePageHeaderIcon}/>
         </View>
      </View>
+
      <Searchcomponent/>
      
 
       <View style={homeStyles.categoryWrapper}>
         <Text style={homeStyles.categoryWrapperText}>SEARCH BY CATEGORY</Text>
+
       <ScrollView style={homeStyles.categoryButtonsWrapper}
-                  horizontal
-                  showsHorizontalScrollIndicator={true}
+                  horizontal 
+                  showsHorizontalScrollIndicator={false}
+                  scrollEnabled={scrollWidthEnabled}
+                  onContentSizeChange={handleContentWidthSizeChange}
+                  contentContainerStyle={{flexDirection:"row",paddingRight:"50%",gap:"2%", justifyContent:"flex-start",alignItems:"center"}}
       >
 
         <TouchableOpacity style={homeStyles.categoryButton}>
@@ -72,9 +86,29 @@ const Homepage = () => {
         <TouchableOpacity style={homeStyles.categoryButton}>
             <Text style={homeStyles.categoryButtonText}>Fiction</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity style={homeStyles.categoryButton}>
+            <Text style={homeStyles.categoryButtonText}>Fiction</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={homeStyles.categoryButton}>
+            <Text style={homeStyles.categoryButtonText}>Fiction</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={homeStyles.categoryButton}>
+            <Text style={homeStyles.categoryButtonText}>Fiction</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={homeStyles.categoryButton}>
+            <Text style={homeStyles.categoryButtonText}>Fiction</Text>
+        </TouchableOpacity>
        
+        <TouchableOpacity style={homeStyles.categoryButton}>
+            <Text style={homeStyles.categoryButtonText}>Fiction</Text>
+        </TouchableOpacity>
 
       </ScrollView>
+
       </View>
 
       <View style={homeStyles.mainContent}>
@@ -85,7 +119,7 @@ const Homepage = () => {
             scrollEnabled={scrollEnabled}  
             onContentSizeChange={handleContentSizeChange}    
             >
-                <View style={homeStyles.booksWrapper}>
+                <View style={homeStyles.booksWrapper} onTouchEnd={navigateToaddItemScreen}>
                     <View style={homeStyles.booksFigure}>
                         <Image source={require('../../../assets/images/You by Caroline Kepnes.webp')} style={homeStyles.bookImage}/>
                     </View>

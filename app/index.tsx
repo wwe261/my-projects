@@ -30,6 +30,7 @@ export default function Page() {
               <Stack.Screen name="search" component={Searchscreen}/>
               <Stack.Screen name="settings" component={SettingsScreen}/>
               <Stack.Screen name="me" component={AccountMeScreen}/>
+              <Stack.Screen name="addItemToCartScreen" component={AdditemtocartScreen}/>
           </Stack.Navigator>
       
          );

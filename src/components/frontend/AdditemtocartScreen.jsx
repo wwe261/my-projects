@@ -1,17 +1,19 @@
 import { View, Text, TextInput,TouchableOpacity,Image,ScrollView } from 'react-native'
-
+import { useNavigation } from 'expo-router'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import Icons from 'react-native-vector-icons/Ionicons'
 
 import addToCartStyles from '../../../styles/frontend/AdditemtocartScreen'
 
-const AdditemtocartScreen = () => {
+const AdditemtocartScreen = ({navigation}) => {
+
+
   return (<>
         <View style={addToCartStyles.container}>
 
             <View style={addToCartStyles.header}>
 
-                <TouchableOpacity style={addToCartStyles.navigationIconWrapper}>
+                <TouchableOpacity style={addToCartStyles.navigationIconWrapper} onPress={()=>navigation.goBack()}>
                     <Icon name="arrow-left" style={addToCartStyles.navigationIcon}/>
                 </TouchableOpacity>
 

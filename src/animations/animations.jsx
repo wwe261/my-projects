@@ -1,14 +1,11 @@
 import { useState, useEffect } from "react";
 
-const animations=()=>{
+const useAnimations=()=>{
     //HEADER TEXT ANIMATION
   const fullText = "JD BOOKSTORE";
   const [displayedText, setDisplayedText] = useState("");
-
-  const headerTextAnimation=()=>{
-
   const [index, setIndex] = useState(0);
-
+  const [animate, setAnimate] = useState(false);
   useEffect(() => {
     if (index < fullText.length) {
       const timeout = setTimeout(() => {
@@ -18,13 +15,17 @@ const animations=()=>{
 
       return () => clearTimeout(timeout);
     }
-  }, [index]);
+  }, [index, animate]);
 
+  const headerTextAnimation=()=>{
+    setDisplayedText("");
+    setIndex(0);
+    setAnimate(true); 
   }
   
   return{headerTextAnimation, displayedText}
 }
 
-export default animations
+export default useAnimations
 
 

@@ -2,6 +2,9 @@ import { Platform } from "react-native";
 import { StyleSheet } from "react-native";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
+import {Dimensions} from "react-native"
+
+const {width:screenWidth}=Dimensions.get('window')
 const homeStyles=({
     //APP CONTAINER STYLES
     Homepagecontainer:{
@@ -67,31 +70,30 @@ const homeStyles=({
         fontSize:RFPercentage(2.5),
         color:"#fff"
     },
+
     categoryWrapper:{
-        //borderColor:"red",
-        //borderWidth:2,
-        //borderStyle:"solid",
+        
     },
     categoryWrapperText:{
         textAlign:"center",
-        fontWeight:"bold"
+        fontWeight:"bold",
+
     },
     categoryButtonsWrapper:{
-        //borderColor:"blue",
-        //borderWidth:2,
-        //borderStyle:"solid",
-        padding:"2.4%",
-        overflow:"hidden",
-        minWidth:"100%"
-        
+        paddingVertical:10, 
+        minWidth:"100%",
+        flexWrap:"nowrap"
+        //overflow:"visible"
     },
     categoryButton:{
+        width: screenWidth * 0.24,
         backgroundColor:"rgba(211,211,211,1)",
-        minWidth:"19%",
-        padding:"1%",
         borderRadius:15,
         boxShadow:"0 3 3 3",
-        marginRight:"4%"
+        height:hp(3),
+        justifyContent:"center",
+        alignItems:"center"
+        
     },categoryButtonText:{
         textAlign:"center",
         color:"white",
