@@ -28,7 +28,7 @@ const adminStyles=StyleSheet.create({
         display:"flex",
         justifyContent:"center",
         width:"100%",
-        backgroundColor:"white",
+        backgroundColor:"#008080",
         borderRadius:15,
         padding:"0.6%"
     },
@@ -36,7 +36,7 @@ const adminStyles=StyleSheet.create({
         fontSize:RFValue(12),
         fontWeight:"bold",
         textAlign:"center",
-        
+        color:"#fff"
     },
     adminMainSection:{
         height:"100%",  

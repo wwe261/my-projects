@@ -16,7 +16,6 @@ const addBookStyles=StyleSheet.create({
     },
     adminAddBookInputs:{
           
-        backgroundColor:"#fff",
         marginTop:"2%"
         
     },
@@ -26,10 +25,18 @@ const addBookStyles=StyleSheet.create({
         justifyContent:"space-evenly",
         marginTop:"2%",
         height:hp(5),
-        backgroundColor:"#008080"
+        backgroundColor:"#008080",
+        borderRadius:19
     },
     adminAddBookTextInput:{
-        fontWeight:"bold"
+        fontWeight:"bold",
+        borderColor:"white",
+        borderStyle:"solid",
+        borderWidth:2,
+        color:"#fff",
+        borderRadius:19,
+        paddingLeft:"3%",
+        
     },
     adminAddBookUploadButton:{
         display:"flex",
@@ -58,7 +65,8 @@ const addBookStyles=StyleSheet.create({
         height:hp(5),
         display:"flex",
         justifyContent:"center",
-        alignItems:"center"
+        alignItems:"center",
+        borderRadius:19
     },
     adminAddBookToDatabaseText:{
         color:"white",

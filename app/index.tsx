@@ -1,38 +1,24 @@
-import { StyleSheet, Text, View } from "react-native";
+import 'react-native-reanimated'; 
+import 'react-native-gesture-handler';
+
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { StyleSheet, Text, View,Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import {createNativeStackNavigator} from '@react-navigation/native-stack'
+import { Provider } from "react-redux";
+import {store} from '../src/redux/store'
 
-
-import Dashboard from '../src/components/admin/Dashboard'
-import Homepage from '../src/components/frontend/Homepage'
-import Searchscreen from '../src/components/frontend/Searchscreen'
-import AdditemtocartScreen from '../src/components/frontend/AdditemtocartScreen'
-import SharebuttonModal from '../src/components/frontend/SharebuttonModal'
-import MenubuttonModal from '../src/components/frontend/MenubuttonModal'
-import AccountMeScreen from '../src/components/frontend/AccountMeScreen'
-import Login from '../src/components/frontend/Login'
-import Signup from '../src/components/frontend/Signup'
-import Shipped from '../src/components/frontend/Shipped'
-import ShippedNotFound from '../src/components/frontend/ShippedNotFound'
-import ReviewScreen from '../src/components/frontend/ReviewScreen'
-import StarRating from '../src/components/frontend/StarRating'
-import ItemReviewScreen from '../src/components/frontend/ItemReviewScreen'
-import YourReviews from '../src/components/frontend/YourReviews'
-import SettingsScreen from '../src/components/frontend/SettingsScreen'
-
-const Stack =createNativeStackNavigator();
+import Main from './Main'
 
 export default function Page() {
-  return (
-      
-          <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }} >
-              <Stack.Screen name="Home" component={Homepage}/>
-              <Stack.Screen name="search" component={Searchscreen}/>
-              <Stack.Screen name="settings" component={SettingsScreen}/>
-              <Stack.Screen name="me" component={AccountMeScreen}/>
-              <Stack.Screen name="addItemToCartScreen" component={AdditemtocartScreen}/>
-          </Stack.Navigator>
-      
-         );
-}
 
+        
+  return (<>
+          <GestureHandlerRootView  style={{ flex: 1 }}>
+          <Provider store={store}>
+                  <Main/>
+          </Provider>  
+          </GestureHandlerRootView>  
+  </>)
+} 
+
+ 
