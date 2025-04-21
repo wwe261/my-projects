@@ -4,19 +4,11 @@
     "slug": "ecommerceProject",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "com.mycompany.myapp"
     },
     "web": {
       "bundler": "metro",
@@ -48,6 +40,9 @@
       "eas": {
         "projectId": "379c4e42-b25c-4223-a3a6-72d7f166d18e"
       }
+    },
+    "android": {
+      "package": "com.siph.ecommerceProject"
     }
   }
 }
