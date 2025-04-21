@@ -19,7 +19,8 @@ import ItemReviewScreen from '../src/components/frontend/ItemReviewScreen'
 import YourReviews from '../src/components/frontend/YourReviews'
 import SettingsScreen from '../src/components/frontend/SettingsScreen'
 import PickImageModal from '../src/components/admin/PickImageModal'
-import MeadiaLibraryExample from '../src/components/admin/Image'
+import Images from '../src/components/admin/Images'
+
 const Stack =createNativeStackNavigator();
 
 const Main = () => {
@@ -31,9 +32,8 @@ const Main = () => {
             <Stack.Screen name="me" component={AccountMeScreen}/>
             <Stack.Screen name="addItemToCartScreen" component={AdditemtocartScreen}/>
             <Stack.Screen name="dashboard" component={Dashboard}/>
-            <Stack.Screen name="pick" component={MeadiaLibraryExample}/>
-          
-   </Stack.Navigator>
+            <Stack.Screen name="pick" component={Images}/>    
+    </Stack.Navigator>
 
   )
 }
