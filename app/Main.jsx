@@ -25,14 +25,14 @@ const Stack =createNativeStackNavigator();
 
 const Main = () => {
   return (
-    <Stack.Navigator initialRouteName="pick" screenOptions={{ headerShown: false }} >
+    <Stack.Navigator initialRouteName="dashboard" screenOptions={{ headerShown: false }} >
             <Stack.Screen name="Home" component={Homepage}/>
             <Stack.Screen name="search" component={Searchscreen}/>
             <Stack.Screen name="settings" component={SettingsScreen}/>
             <Stack.Screen name="me" component={AccountMeScreen}/>
             <Stack.Screen name="addItemToCartScreen" component={AdditemtocartScreen}/>
             <Stack.Screen name="dashboard" component={Dashboard}/>
-            <Stack.Screen name="pick" component={Images}/>    
+                
     </Stack.Navigator>
 
   )

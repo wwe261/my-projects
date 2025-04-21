@@ -36,6 +36,7 @@ const addBookStyles=StyleSheet.create({
         color:"#fff",
         borderRadius:19,
         paddingLeft:"3%",
+        height:hp(5)
         
     },
     adminAddBookUploadButton:{

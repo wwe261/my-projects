@@ -8,15 +8,13 @@ import addBookStyles from '../../../styles/admin/Addbook'
 import {validateInput} from '../adminFunctions/validateInput'
 import { useDispatch, useSelector } from 'react-redux'
 import { setValue } from '@/src/redux/openPickImageSlicer'
-
+import { cameraPermissions } from '@/src/sharedFunctions/cameraPermissions'
 const Addbook = () => {
 
   const {validateForm, handleChange,formData}=validateInput()
-
-  useEffect(()=>{
-    console.log(formData)
-  }, [formData])
-
+  const {image}=cameraPermissions()
+  
+  
   const dispatch=useDispatch()
 
 

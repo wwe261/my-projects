@@ -15,7 +15,8 @@ const PickImageModal = () => {
 
     useEffect(()=>{
         console.log(image)
-    }, [image])
+      }, [image])
+    
   return (<>
     <BottomSheetView style={pickImage.container}>
         <Text style={pickImage.containerText}>Pick Image</Text>

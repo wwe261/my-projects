@@ -1,4 +1,4 @@
- /*import * as ImagePicker from 'expo-image-picker'
+ import * as ImagePicker from 'expo-image-picker'
 
 import { useState } from 'react'
 
@@ -42,7 +42,7 @@ export const cameraPermissions=()=>{
 
 
     return {pickImageF,image}
-}  */
+}  
 
  
    

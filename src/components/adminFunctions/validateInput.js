@@ -53,7 +53,10 @@ export function validateInput(){
         }else{
             formData.price=formData.price.trim()
         }
-
+        
+        if(!formData.image || !formData.authors.trim()){
+            validationErrors="Image is required"
+        }
 
 
     }
