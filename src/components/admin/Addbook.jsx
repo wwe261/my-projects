@@ -9,17 +9,47 @@ import {validateInput} from '../adminFunctions/validateInput'
 import { useDispatch, useSelector } from 'react-redux'
 import { setValue } from '@/src/redux/openPickImageSlicer'
 import { cameraPermissions } from '@/src/sharedFunctions/cameraPermissions'
+import {useAddBooksMutation} from '../../../backend/rtk query/TollkitQueries'
+
 const Addbook = () => {
 
-  const {validateForm, handleChange,formData}=validateInput()
-  
+  const {validateForm, handleChange,formData,errors}=validateInput()
+  const [addnewBook,{data,error,isLoading}]=useAddBooksMutation()
+
+  const handleSubmit=async()=>{
+    if(validateForm()){
+      try{
+        const newBook={
+            bookTitle:formData.title,
+            isbn:formData.isbn,
+            authors:formData.authors,
+            category:formData.category,
+            price:formData.price,
+            image:formData.image
+        }
+        
+        await addnewBook(newBook)
+      }catch(err){
+        console.log(err)
+      }
+    }else{
+      console.log("cant errors")
+    }
+  }
+
+  useEffect(()=>{
+    console.log(formData)
+  }, [formData])
+
   const dispatch=useDispatch()
   const images=useSelector((state)=>  state.imageUri.imageUri)
 
   useEffect(()=>{
     handleChange('image', images)
   },[images])
-
+ 
+  
+  
   
   
 
@@ -84,7 +114,7 @@ const Addbook = () => {
               </View>
 
               <View style={addBookStyles.adminAddBookToDatabase}>
-                <TouchableOpacity style={addBookStyles.adminAddBookToDatabaseButton}>
+                <TouchableOpacity style={addBookStyles.adminAddBookToDatabaseButton} onPress={handleSubmit}>
                   <Text style={addBookStyles.adminAddBookToDatabaseText}>ADD BOOK TO DATABASE</Text>
                 </TouchableOpacity>
               </View>

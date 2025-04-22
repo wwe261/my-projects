@@ -33,7 +33,7 @@ export function validateInput(){
 
         if(!formData.authors || !formData.authors.trim()){
             validationErrors.authors="authors filed cannot be empty"
-        }else if(!/^[A-Za-z]+$ /.test(formData.authors)){
+        }else if(!/^[A-Za-z]+$/.test(formData.authors)){
             validationErrors.authors="must contain string only"
         }else{
             formData.authors=formData.authors.trim()
@@ -42,22 +42,22 @@ export function validateInput(){
         if(!formData.category || !formData.category.trim()){
             validationErrors.category="Field cannot be empty"
 
-        }else if(!/^[A-Za-z]+$ /.test(formData.category)){
+        }else if(!/^[A-Za-z]+$/.test(formData.category)){
             validationErrors.category="cannot contain special characters"
         }else{
             formData.category=formData.category.trim()
         }
 
-        if(!formData.price || !formData.authors.trim()){
+        if(!formData.price || !formData.price.trim()){
             validationErrors.price="field cannot be empty"
-        }else if(/^[0-9.,]+$/.test(formData.price)){
+        }else if(!/^[0-9.,]+$/.test(formData.price)){
             validationErrors.price="cannot contain special characters"
         }else{
             formData.price=formData.price.trim()
         }
         
-        if(!formData.image || !formData.authors.trim() || formData.image === undefined){
-            validationErrors="Image is required"
+        if(!formData.image || /*!formData.authors.trim()*/ formData.image === undefined){
+            validationErrors.image="Image is required"
         }
        
         setErrors(validationErrors)
