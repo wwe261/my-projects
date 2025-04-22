@@ -40,8 +40,25 @@ export const cameraPermissions=()=>{
         }
     }
 
+    const takePhoto=async()=>{
+        try{
+            const result=await ImagePicker.launchCameraAsync({
+                mediaTypes:ImagePicker.MediaTypeOptions.Images,
+                allowsEditing:true,
+                apect:[4, 3],
+                quality:1
+            })
 
-    return {pickImageF,image}
+            if(!result.canceled){
+                setImage(result.assets[0].uri)
+            }
+        }catch(err){
+            console.log(err)
+        }
+    }
+
+
+    return {pickImageF,image, takePhoto}
 }  
 
  

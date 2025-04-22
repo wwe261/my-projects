@@ -6,7 +6,8 @@
     reducers:{
         setValue:(state,action)=>{
             state.open=action.payload
-        }
+        },
+        
     }
 
  })

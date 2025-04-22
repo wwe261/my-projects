@@ -12,6 +12,8 @@ export function validateInput(){
         
     }
 
+    
+
     const validateForm=()=>{
         const validationErrors={}
         //VALIDATE TITLE
@@ -54,13 +56,16 @@ export function validateInput(){
             formData.price=formData.price.trim()
         }
         
-        if(!formData.image || !formData.authors.trim()){
+        if(!formData.image || !formData.authors.trim() || formData.image === undefined){
             validationErrors="Image is required"
         }
+       
+        setErrors(validationErrors)
 
+        return Object.keys(validationErrors).length ===0
 
     }
 
 
-    return {validateForm, handleChange, formData}
+    return {validateForm, handleChange, formData, errors}
 }

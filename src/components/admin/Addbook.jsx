@@ -12,11 +12,16 @@ import { cameraPermissions } from '@/src/sharedFunctions/cameraPermissions'
 const Addbook = () => {
 
   const {validateForm, handleChange,formData}=validateInput()
-  const {image}=cameraPermissions()
-  
   
   const dispatch=useDispatch()
+  const images=useSelector((state)=>  state.imageUri.imageUri)
 
+  useEffect(()=>{
+    handleChange('image', images)
+  },[images])
+
+  
+  
 
   return (<>
     <Text style={addBookStyles.adminAddBookSectionText}>ADD BOOK</Text>
@@ -65,6 +70,7 @@ const Addbook = () => {
                    style={addBookStyles.adminAddBookTextInput}
                    onChangeText={(text)=> handleChange('price', text)}
                    placeholderTextColor="#fff"
+                    keyboardType='phone-pad'
                    />
               </View>
 
