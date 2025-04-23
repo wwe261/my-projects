@@ -2,7 +2,8 @@
 
  export const productsApi=createApi({
     reducerPath:"books",
-    baseQuery:fetchBaseQuery({baseUrl: "http://10.31.151.216:5000/"}),
+    baseQuery:fetchBaseQuery({baseUrl: "http://10.31.170.239:5000/"}),
+
     endpoints:(builder)=>({
 
         addBooks:builder.mutation({
@@ -11,7 +12,8 @@
                 method:"POST",
                 headers:{"Content-Type":"application/json"},
                 body:addnewBook
-            })
+            }),
+            
         })
 
 

@@ -2,13 +2,14 @@ import { View, Text, Button, TouchableOpacity, TextInput,TouchableWithoutFeedbac
 import { useEffect, useRef, useState, useMemo } from 'react'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { useDispatch,useSelector } from 'react-redux'
+
 import { setValue } from '@/src/redux/openPickImageSlicer'
+import { setPageToRender } from '@/src/redux/persistDashboardPages'
+
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
 import { useNavigation } from 'expo-router'
 
 import BottomSheet from '@gorhom/bottom-sheet'
-
-
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 import adminStyles from '../../../styles/admin/Dashboard'
@@ -62,6 +63,11 @@ const [component, setComponent]=useState('welcomePage')
           bottomSheetRef.current.expand();
         }
       }, [displayPickImageModal]);
+      
+      const renderComponentState=useSelector((state)=> state.persistDashboardPages.pageToRender)
+      useEffect(()=>{
+        setComponent(renderComponentState)
+      }, [renderComponentState])
   
   return (
     //<TouchableWithoutFeedback onPress={Keyboard.dismiss}>/}
@@ -105,7 +111,7 @@ const [component, setComponent]=useState('welcomePage')
          {/* THIS CODE IS FOR THE BUTTON FOOTER WHICH WILL BE IN A FIXED POSITION */}
          <View style={adminStyles.adminButtonsContainer}>
         {/* THIS ARE BUTTONS BUT HERE WE ARE USINH TOUCHABLE OPACITY INSTEAD OF BUTTON COMPONENT */}
-         <TouchableOpacity  style={adminStyles.adminButtonStyles} onPress={()=>setComponent("addBook")} > 
+         <TouchableOpacity  style={adminStyles.adminButtonStyles} onPress={()=>dispatch(setPageToRender("addBook"))} > 
         {/* THIS CONTAINS THE TEXT AND ICON ALLOWING US TO DISPLAY THEM THE WAY WE WANT */}
           <View style={adminStyles.adminIconTextContainer} >
             <Icon name="plus-circle"  style={adminStyles.adminButtonIconStyles}/>
@@ -113,28 +119,28 @@ const [component, setComponent]=useState('welcomePage')
           </View>
          </TouchableOpacity>
 
-         <TouchableOpacity  style={adminStyles.adminButtonStyles} onPress={()=>setComponent("deleteBook")}> 
+         <TouchableOpacity  style={adminStyles.adminButtonStyles} onPress={()=>dispatch(setPageToRender("deleteBook"))}> 
           <View style={adminStyles.adminIconTextContainer}>
             <Icon name="trash"  style={adminStyles.adminButtonIconStyles}/>
             <Text style={adminStyles.adminButtonTextStyles}>DELETE BOOK</Text>
           </View>
          </TouchableOpacity>
 
-         <TouchableOpacity  style={adminStyles.adminButtonStyles} onPress={()=>setComponent("searchBook")}> 
+         <TouchableOpacity  style={adminStyles.adminButtonStyles} onPress={()=>dispatch(setPageToRender("searchBook"))}> 
           <View style={adminStyles.adminIconTextContainer}>
             <Icon name="search"  style={adminStyles.adminButtonIconStyles}/>
             <Text style={adminStyles.adminButtonTextStyles}>SEARCH BOOK</Text>
           </View>
          </TouchableOpacity>
 
-         <TouchableOpacity  style={adminStyles.adminButtonStyles} onPress={()=>setComponent("updateBook")} > 
+         <TouchableOpacity  style={adminStyles.adminButtonStyles} onPress={()=>dispatch(setPageToRender("updateBook"))} > 
           <View style={adminStyles.adminIconTextContainer}>
             <Icon name="edit"  style={adminStyles.adminButtonIconStyles}/>
             <Text style={adminStyles.adminButtonTextStyles}>UPDATE BOOK</Text>
           </View>
          </TouchableOpacity>
 
-         <TouchableOpacity  style={adminStyles.adminButtonStyles} onPress={()=>setComponent("welcomeBook")} > 
+         <TouchableOpacity  style={adminStyles.adminButtonStyles} onPress={()=>dispatch(setPageToRender("welcomeBook"))} > 
           <View style={adminStyles.adminIconTextContainer}>
             <Icon name="home"  style={adminStyles.adminButtonIconStyles}/>
             <Text style={adminStyles.adminButtonTextStyles}>Home</Text>

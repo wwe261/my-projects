@@ -7,13 +7,16 @@ import {productsApi} from './TollkitQueries'
 import storage from '@react-native-async-storage/async-storage'
 import openPickImageReducer from '../../src/redux/openPickImageSlicer'
 import imageUriReducer from '../../src/redux/ImageUri'
-
-
-
+import persistDashboardPagesReducer from '../../src/redux/persistDashboardPages'
+import addBookInputValuesReducer from '../../src/redux/AddBookInputValue'
+ 
 const rootReducer=combineReducers({
     pickImage:openPickImageReducer,
     imageUri:imageUriReducer,
-    [productsApi.reducerPath]:productsApi.reducer
+    persistDashboardPages:persistDashboardPagesReducer,
+    [productsApi.reducerPath]:productsApi.reducer,
+    addBookInputValues:addBookInputValuesReducer
+
 })
 const persistConfig={key:'root',storage, version:1, blacklist: [productsApi.reducerPath]}
 const persistedState=persistReducer(persistConfig,rootReducer)

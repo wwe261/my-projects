@@ -10,11 +10,21 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setValue } from '@/src/redux/openPickImageSlicer'
 import { cameraPermissions } from '@/src/sharedFunctions/cameraPermissions'
 import {useAddBooksMutation} from '../../../backend/rtk query/TollkitQueries'
-
+import { setUri } from '@/src/redux/ImageUri'
+import { resetForm } from '@/src/redux/AddBookInputValue'
 const Addbook = () => {
 
   const {validateForm, handleChange,formData,errors}=validateInput()
-  const [addnewBook,{data,error,isLoading}]=useAddBooksMutation()
+  const [addnewBook,{data,error,isLoading,isSuccess}]=useAddBooksMutation()
+
+  
+  useEffect(()=>{
+   // if(isSuccess){
+//dispatch(resetForm())
+    //
+    //}
+    
+  })
 
   const handleSubmit=async()=>{
     if(validateForm()){
@@ -27,8 +37,8 @@ const Addbook = () => {
             price:formData.price,
             image:formData.image
         }
-        
         await addnewBook(newBook)
+        
       }catch(err){
         console.log(err)
       }
@@ -36,6 +46,8 @@ const Addbook = () => {
       console.log("cant errors")
     }
   }
+  
+  
 
   useEffect(()=>{
     console.log(formData)
@@ -52,6 +64,7 @@ const Addbook = () => {
   
   
   
+  
 
   return (<>
     <Text style={addBookStyles.adminAddBookSectionText}>ADD BOOK</Text>
@@ -60,6 +73,7 @@ const Addbook = () => {
               <View style={addBookStyles.adminAddBookInputs}>
                   <TextInput placeholder='BOOK TITLE...' 
                   style={addBookStyles.adminAddBookTextInput}
+                  value={formData.title}
                   onChangeText={(text) => handleChange('title', text)}
                   placeholderTextColor="#fff"
                   />
@@ -69,6 +83,7 @@ const Addbook = () => {
 
                   <TextInput placeholder='BOOK ISBN...' 
                    style={addBookStyles.adminAddBookTextInput}
+                   value={formData.isbn}
                    onChangeText={(text) => handleChange('isbn', text)}
                    placeholderTextColor="#fff"
                    />
@@ -79,6 +94,7 @@ const Addbook = () => {
 
                   <TextInput placeholder='AUTHORS...'
                   style={addBookStyles.adminAddBookTextInput}
+                  value={formData.authors}
                   onChangeText={(text)=> handleChange('authors', text)}
                   placeholderTextColor="#fff"
                    />
@@ -89,6 +105,7 @@ const Addbook = () => {
 
                   <TextInput placeholder='CATEGORY...'
                   style={addBookStyles.adminAddBookTextInput}
+                  value={formData.category}
                   onChangeText={(text)=> handleChange('category', text)}  
                   placeholderTextColor="#fff"
                    />
@@ -99,6 +116,7 @@ const Addbook = () => {
                   <TextInput placeholder='PRICE...'
                    style={addBookStyles.adminAddBookTextInput}
                    onChangeText={(text)=> handleChange('price', text)}
+                   value={formData.price}
                    placeholderTextColor="#fff"
                     keyboardType='phone-pad'
                    />
