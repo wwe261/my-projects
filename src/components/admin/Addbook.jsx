@@ -1,6 +1,7 @@
 import { View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native'
 import { useEffect } from 'react'
 
+import {supabase} from '../../../backend/database/connectDatabase'
 
 import Icon from 'react-native-vector-icons/FontAwesome'
 
@@ -12,30 +13,34 @@ import { cameraPermissions } from '@/src/sharedFunctions/cameraPermissions'
 import {useAddBooksMutation} from '../../../backend/rtk query/TollkitQueries'
 import { setUri } from '@/src/redux/ImageUri'
 import { resetForm } from '@/src/redux/AddBookInputValue'
+
 const Addbook = () => {
 
   const {validateForm, handleChange,formData,errors}=validateInput()
   const [addnewBook,{data,error,isLoading,isSuccess}]=useAddBooksMutation()
+  //THIS WILL VARIABLE HOLDS THE USEDISPATCH HOOK USED TO SEND CALL FUNCTION OD REDUX
+  const dispatch=useDispatch()
 
+  //AFTER THE DATA IS SUCCESSFULLY SUBMITTED TO THE SERVER THIS WILL RESET THE FORM
   
   useEffect(()=>{
-   // if(isSuccess){
-//dispatch(resetForm())
-    //
-    //}
+   if(isSuccess){
+      dispatch(resetForm())
+    } 
     
-  })
+  },[isSuccess]) 
 
+  //THIS SUBMITS THE DATA TO THE SERVER IF IF THE FORM IS VALIDATED AND THERE ARE NO ERRORS
   const handleSubmit=async()=>{
     if(validateForm()){
       try{
         const newBook={
-            bookTitle:formData.title,
+            bookTitle:formData.title,  
             isbn:formData.isbn,
             authors:formData.authors,
             category:formData.category,
             price:formData.price,
-            image:formData.image
+            image:formData.image,
         }
         await addnewBook(newBook)
         
@@ -43,19 +48,18 @@ const Addbook = () => {
         console.log(err)
       }
     }else{
-      console.log("cant errors")
+      console.log(errors)
     }
   }
+
   
+ 
   
 
-  useEffect(()=>{
-    console.log(formData)
-  }, [formData])
-
-  const dispatch=useDispatch()
+ //SNCE OUR IMAGE URL IS BEING PERSISTED IN REDUX PERSIST THIS IS HOW WE FETCH IT
   const images=useSelector((state)=>  state.imageUri.imageUri)
 
+//WHEN THE VALUE OF IMAGE IN REDUX CHANGES THIS SETS THE IMAGE PROPERTY TO THAT VALUE
   useEffect(()=>{
     handleChange('image', images)
   },[images])
@@ -132,8 +136,8 @@ const Addbook = () => {
               </View>
 
               <View style={addBookStyles.adminAddBookToDatabase}>
-                <TouchableOpacity style={addBookStyles.adminAddBookToDatabaseButton} onPress={handleSubmit}>
-                  <Text style={addBookStyles.adminAddBookToDatabaseText}>ADD BOOK TO DATABASE</Text>
+                <TouchableOpacity style={addBookStyles.adminAddBookToDatabaseButton} onPress={handleSubmit} disabled={isLoading}>
+                  <Text style={addBookStyles.adminAddBookToDatabaseText}>{isLoading? 'SUBMITTING': 'ADD DATA TO DATABASE'}  </Text>
                 </TouchableOpacity>
               </View>
 

@@ -9,6 +9,7 @@ import openPickImageReducer from '../../src/redux/openPickImageSlicer'
 import imageUriReducer from '../../src/redux/ImageUri'
 import persistDashboardPagesReducer from '../../src/redux/persistDashboardPages'
 import addBookInputValuesReducer from '../../src/redux/AddBookInputValue'
+import pickImage from "@/styles/admin/pickImageModal";
  
 const rootReducer=combineReducers({
     pickImage:openPickImageReducer,
@@ -18,7 +19,7 @@ const rootReducer=combineReducers({
     addBookInputValues:addBookInputValuesReducer
 
 })
-const persistConfig={key:'root',storage, version:1, blacklist: [productsApi.reducerPath]}
+const persistConfig={key:'root',storage, version:1, blacklist: [productsApi.reducerPath, pickImage]}
 const persistedState=persistReducer(persistConfig,rootReducer)
 
 export const store=configureStore({

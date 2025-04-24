@@ -30,4 +30,4 @@ export const useContentWidthSizeChange=()=>{
 
     return {scrollWidthEnabled,handleContentWidthSizeChange}
 
-}
+}  

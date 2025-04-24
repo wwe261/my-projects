@@ -1,5 +1,5 @@
  import * as ImagePicker from 'expo-image-picker'
-
+ import * as FileSystem from 'expo-file-system'
 import { useState } from 'react'
 
 import { useEffect } from 'react'
@@ -33,7 +33,10 @@ export const cameraPermissions=()=>{
                 quality:1 })
 
             if(!result.canceled){
-                setImage(result.assets[0].uri)
+                const base64 = await FileSystem.readAsStringAsync(result.assets[0].uri, {
+                    encoding: FileSystem.EncodingType.Base64,
+                  });
+                setImage(base64)
             }
         }catch(error){
             console.log(error)
@@ -50,7 +53,10 @@ export const cameraPermissions=()=>{
             })
 
             if(!result.canceled){
-                setImage(result.assets[0].uri)
+                const base64 = await FileSystem.readAsStringAsync(result.assets[0].uri, {
+                    encoding: FileSystem.EncodingType.Base64,
+                  });
+                setImage(base64)
             }
         }catch(err){
             console.log(err)

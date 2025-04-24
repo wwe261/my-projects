@@ -70,7 +70,7 @@ const [component, setComponent]=useState('welcomePage')
       }, [renderComponentState])
   
   return (
-    //<TouchableWithoutFeedback onPress={Keyboard.dismiss}>/}
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <GestureHandlerRootView style={{flex:1}}>
     <View style={adminStyles.adminContainer}>
      {/* This code is for the analytics of our store like the number of books sold, number of user accounts, revenues generated
@@ -160,7 +160,7 @@ const [component, setComponent]=useState('welcomePage')
 
  </View>
  </GestureHandlerRootView>
- //</TouchableWithoutFeedback>
+ </TouchableWithoutFeedback>
   )
 }
 

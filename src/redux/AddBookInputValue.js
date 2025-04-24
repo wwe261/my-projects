@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+//SETS INITIAL STATE SO THAT THE FIEKDS WILL BE EMPTY STRINGS
 const initialState = {
     bookFormData: {
       title: '',

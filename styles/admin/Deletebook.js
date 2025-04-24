@@ -1,7 +1,9 @@
 import { StyleSheet } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import { Dimensions } from "react-native";
 
+const {width:screenWidth}=Dimensions.get('window')
 
 const deleteBookStyles=StyleSheet.create({
 deleteBookText:{
@@ -25,6 +27,7 @@ deleteBookSearchContainer:{
     borderTopLeftRadius:13
 },
 deleteBookSearchInput:{
+    height:hp(5),
     width:"88%",
     borderBottomLeftRadius:13,
     borderTopLeftRadius:13,
@@ -45,15 +48,17 @@ deleteBookSearchIcon:{
     color:"white"
 },
 deleteBookSectionContainer:{
+    flexDirection:"row",
+    height:"100%",
     
-    height:"100%"
+
 },
 deleteBookTemplateContainer:{
     
     height:"20%",
-    width:"44%",
-    marginTop:"10%",
-    marginLeft:"3%"
+    width:screenWidth * 0.65,
+    marginTop:"2%",
+    marginLeft:"0.6%"
 },
 deleteBookTemplate:{
     
