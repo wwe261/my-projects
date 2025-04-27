@@ -1,6 +1,6 @@
 import { View, Text,TouchableOpacity } from 'react-native'
 import { useNavigation } from 'expo-router'
-import footerNavigationStyle from '../../styles/frontend/Footernavigation'
+import footerNavigationStyle from '../../styles/sharedComponents/Footernavigation'
 
 import Icon from 'react-native-vector-icons/FontAwesome5'
 

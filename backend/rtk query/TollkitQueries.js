@@ -2,7 +2,7 @@
 
  export const productsApi=createApi({
     reducerPath:"books",
-    baseQuery:fetchBaseQuery({baseUrl: "http://10.31.128.105:5000/"}),
+    baseQuery:fetchBaseQuery({baseUrl: "http://10.31.189.231:5000/"}),
 
     endpoints:(builder)=>({
 
@@ -23,11 +23,18 @@
                 body:searchBook
             })
             
-                                      })
+                                      }),
+            deleteBook:builder.mutation({
+                query:(id)=>({
+                    url: `/book/${id}`,
+                    method:"DELETE"
+                })
+            })
+            
 
 
 
     }) 
 })
 
- export const {useAddBooksMutation,useSearchBookMutation}=productsApi
+ export const {useAddBooksMutation,useSearchBookMutation, useDeleteBookMutation}=productsApi

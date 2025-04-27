@@ -1,8 +1,8 @@
-import { View, Text, Button, TouchableOpacity, TextInput,TouchableWithoutFeedback,Keyboard} from 'react-native'
+import { View, Text, Button, TouchableOpacity, TextInput,TouchableWithoutFeedback,Keyboard, Modal} from 'react-native'
 import { useEffect, useRef, useState, useMemo } from 'react'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { useDispatch,useSelector } from 'react-redux'
-
+import { setModalValue } from '@/src/redux/deleteConfirmationModal'
 import { setValue } from '@/src/redux/openPickImageSlicer'
 import { setPageToRender } from '@/src/redux/persistDashboardPages'
 
@@ -20,7 +20,7 @@ import Searchbook from '../admin/Searchbook'
 import Deletebook from '../admin/Deletebook'
 import Welcomepage from './Welcomepage'
 import PickImageModal from './PickImageModal'
-
+import DeleteConfirmation from '@/src/sharedComponets/DeleteConfirmation'
 const Dashboard = () => {
 /* THIS CODE IS FOR RENDERING THE COMPONENTS WHICH ARE ADDBOOK, WELCOMEPAGE,ETC... */
 const [component, setComponent]=useState('welcomePage')
@@ -68,11 +68,19 @@ const [component, setComponent]=useState('welcomePage')
       useEffect(()=>{
         setComponent(renderComponentState)
       }, [renderComponentState])
-  
+
+      const displayConfirmationModal=useSelector((state)=> state.deleteConfirmationModal.displayConfirmationModal)
+      const [text, setText]=useState("Book")
+      
+      const deleteId=useSelector((state)=> state.deleteId.deleteId)
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <GestureHandlerRootView style={{flex:1}}>
-    <View style={adminStyles.adminContainer}>
+    <View style={[adminStyles.adminContainer, ]}>
+
+     
+       {displayConfirmationModal && <DeleteConfirmation deleteId={deleteId} text={text}/>}
+     
      {/* This code is for the analytics of our store like the number of books sold, number of user accounts, revenues generated
          & number of books available */}
      <View style={adminStyles.adminAnalyticsContainer}  >

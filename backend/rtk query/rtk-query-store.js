@@ -10,16 +10,25 @@ import imageUriReducer from '../../src/redux/ImageUri'
 import persistDashboardPagesReducer from '../../src/redux/persistDashboardPages'
 import addBookInputValuesReducer from '../../src/redux/AddBookInputValue'
 import pickImage from "@/styles/admin/pickImageModal";
- 
+import deleteConfirmationModalReducer from '../../src/redux/deleteConfirmationModal'
+import deleteIdReducer from '../../src/redux/deleteId'
+import searchResultsReducer from '../../src/redux/SearchResult'
+
 const rootReducer=combineReducers({
     pickImage:openPickImageReducer,
     imageUri:imageUriReducer,
     persistDashboardPages:persistDashboardPagesReducer,
     [productsApi.reducerPath]:productsApi.reducer,
-    addBookInputValues:addBookInputValuesReducer
+    addBookInputValues:addBookInputValuesReducer,
+    deleteConfirmationModal:deleteConfirmationModalReducer,
+    deleteId:deleteIdReducer,
+    searchedBooks:searchResultsReducer
 
 })
-const persistConfig={key:'root',storage, version:1, blacklist: [productsApi.reducerPath, pickImage]}
+const persistConfig={key:'root',storage, version:1, blacklist: [productsApi.reducerPath, 
+                                                                'pickImage', 'deleteConfirmationModal',
+                                                                 'deleteId', 'searchedBooks']}
+                                                                 
 const persistedState=persistReducer(persistConfig,rootReducer)
 
 export const store=configureStore({

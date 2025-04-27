@@ -36,7 +36,7 @@
           .select('id, quantity') // Assuming there's a `quantity` column
           .eq('isbn', Isbn)
     
-      
+        
         if (fetchError) {
           console.error('Error fetching book:', fetchError);
           return;
@@ -85,19 +85,26 @@
 
     export const addBookCover=async(Image)=>{
       const buffer = Buffer.from(Image, 'base64');
-       
-        const {data,error}=await supabase.storage.from('book-cover')
-                                  .upload(`book_cover${Date.now()}.png`, buffer,{
-                                    //contentType: 'image/png', 
-                                    cacheControl: '3600',
-                                    upsert: true,
-                                  })
 
-                                  if (error) {
-                                    console.error('Upload error:', error);
-                                  } else {
-                                    console.log('Upload success:', data);
-                                  }
+        try{
+
+          const {data,error}=await supabase.storage.from('book-cover')
+          .upload(`book_cover${Date.now()}.png`, buffer,{
+            //contentType: 'image/png', 
+            cacheControl: '3600',
+            upsert: true,
+          })
+
+          if (error) {
+            console.error('Upload error:', error);
+          } else {
+            console.log('Upload success:', data);
+          }
+          
+        }catch(error){
+          console.log(error)
+        }
+       
     }
     
 

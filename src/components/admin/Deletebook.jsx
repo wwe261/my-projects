@@ -1,32 +1,39 @@
-import { View, Text, TextInput, Image, TouchableOpacity, ScrollView,TouchableWithoutFeedback, Keyboard, FlatList } from 'react-native'
+import { View, Text, TextInput, Image, TouchableOpacity, 
+         ScrollView,TouchableWithoutFeedback, Keyboard, 
+         FlatList,Modal } from 'react-native'
 import { useContentWidthSizeChange } from '@/src/sharedFunctions/ContentSizeChange'
 import { useState, useEffect, useRef } from 'react'
-
 import { useSearchBookMutation } from '@/backend/rtk query/TollkitQueries'
+import { useSelector,useDispatch } from 'react-redux'
+import { setModalValue } from '@/src/redux/deleteConfirmationModal'
+import { setDeleteId } from '@/src/redux/deleteId'
+import { setBooksFromSearch } from '@/src/redux/SearchResult'
 
+import { supabase } from '@/backend/database/connectDatabase'
 
 import Icon from 'react-native-vector-icons/FontAwesome'
-import deleteBookStyles from '../../../styles/admin/Deletebook'
 
+import deleteBookStyles from '../../../styles/admin/Deletebook'
 import SearchBookStyles from '../../../styles/admin/Searchbook'
 
 
+
 const Deletebook = () => {
+      //THIS IS THE CODE FOR CONTROLING THE SCREEN BEHAVIOUR WHEN USER IS SCROLLING
       const {scrollWidthEnabled, handleContentWidthSizeChange}=useContentWidthSizeChange()
       
- 
-         useEffect(()=>{
-         console.log(searchValue)
-         }, [searchValue])
-
-
+     //THIS USE STATE CONTROLS CURRENT STATE OF YOUR SEARCHVALUE
       const [searchValue, setSearchValue]=useState(null)
-      const [searchBook,{data,isLoading, isSuccess}]=useSearchBookMutation()
 
-      useEffect(()=>{
-         console.log(data)
-         }, [data])
+      /*THIS FUNCTION OR QUERY FROM RTK-QUERY WHICH RETURNS THE DATA OR MESSAGE FROM THE SERVER
+        OR IF THERRE WAS AN ERROR IS THE DATA YOU SEN TO SERVER A SUCCESS OR WHAT */
+      const [searchBook,{data,isLoading, isSuccess}]=useSearchBookMutation()
       
+      //THIS VARIAABLE HOLDS THE SEARCH RESULTS WHICH YOU ARE STORING IN REDUX STORE
+      const SearchedBooks=useSelector((state)=>state.searchedBooks.booksFromSearch)
+
+      /*THIS FUNCTION HANDLES YOUR SEARCH ACTION WHEN USER SEARCHES FOR SOMETHING IT WILL BE STORED
+       IN THE SEARCHVALUE STATE THEN PASSED ON TO  YOUR SERVER */
       const handleSearch=async()=>{
          
              if(searchValue && searchValue.trim()){
@@ -39,14 +46,34 @@ const Deletebook = () => {
              }else{
                  console.log("cant search empty string")
              }
-       
-         
+             
+      }
+     
+      //THIS HOLDS OR STORES THE ISD OF THE ITEM OR BOOK YOU WANT TO DELETE WHICH YOU ARE STORING IN THE REDUX STORE
+      //const deleteId=useSelector((state)=> state.deleteId.deleteId)
+
+      const dispatch=useDispatch()
+      
+      /* THIS FUNCTION DOES 2 FUNCTINALITIES
+       1. IT SETSTHE MODAL VALUE YOU ARE STORING IN YOUR TO TRUE SO THAT THE THE DELTECONFIRMATION MODAL APPEARS
+       2. IT SETS THE DELETE ID YOU STORE IN YOUR REDUX TO THE ID OF THE CURRENT BOOK WHICH YOU RECENTLY CLICKED THE DELETE BUTTON OFF */
+      const handleDisplayDeleteModal=(id)=>{
+         dispatch(setModalValue(true))
+         dispatch(setDeleteId(id))
       }
 
-
-
+      /* SINCE WE ARE STORING THE RESULTS SEARCHED DATA IN REDUX STORE WE FIRST CHECK IF THE SERVER HAS SENT THE DATA
+       YET IF SO WE SET OUR REDUX STATE TO THIS SEARCH RESULTS */
+      useEffect(()=>{
+         if(data){
+            dispatch(setBooksFromSearch(data))
+         }
+      }, [data])
+       
+     
   return (<>
-  
+
+       
        <Text style={deleteBookStyles.deleteBookText}>DELETE BOOK</Text>
   
             <View style={deleteBookStyles.deleteBookContainer}>
@@ -65,16 +92,8 @@ const Deletebook = () => {
 
                      </View>
 
-           {/*<ScrollView 
-                  style={deleteBookStyles.deleteBookSectionContainer}
-                  horizontal
-                  onContentSizeChange={handleContentWidthSizeChange}
-                  scrollEnabled={scrollWidthEnabled}
-                  contentContainerStyle={{paddingRight:"20%"}}
-            >   </ScrollView>*/ }
-
               <FlatList
-             data={data?.data}
+             data={SearchedBooks?.data}
              keyExtractor={(item)=> item.id}
              horizontal
              contentContainerStyle={{ paddingRight: "20%" }}
@@ -94,7 +113,7 @@ const Deletebook = () => {
                   </View>
                </View>
                <View style={deleteBookStyles.deleteBookDeleteButtonContainer}>
-                  <TouchableOpacity style={deleteBookStyles.deleteBookDeleteButton}>
+                  <TouchableOpacity style={deleteBookStyles.deleteBookDeleteButton} onPress={()=>handleDisplayDeleteModal(item.id)}>
                      <Text style={deleteBookStyles.deleteButtonText}>DELETE BOOK</Text>
                   </TouchableOpacity>
                </View>
