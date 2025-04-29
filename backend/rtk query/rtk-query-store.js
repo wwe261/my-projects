@@ -13,6 +13,7 @@ import pickImage from "@/styles/admin/pickImageModal";
 import deleteConfirmationModalReducer from '../../src/redux/deleteConfirmationModal'
 import deleteIdReducer from '../../src/redux/deleteId'
 import searchResultsReducer from '../../src/redux/SearchResult'
+import deleteUriReducer from '../../src/redux/deleteUri'
 
 const rootReducer=combineReducers({
     pickImage:openPickImageReducer,
@@ -22,12 +23,13 @@ const rootReducer=combineReducers({
     addBookInputValues:addBookInputValuesReducer,
     deleteConfirmationModal:deleteConfirmationModalReducer,
     deleteId:deleteIdReducer,
-    searchedBooks:searchResultsReducer
+    searchedBooks:searchResultsReducer,
+    deleteUri:deleteUriReducer
 
 })
 const persistConfig={key:'root',storage, version:1, blacklist: [productsApi.reducerPath, 
                                                                 'pickImage', 'deleteConfirmationModal',
-                                                                 'deleteId', 'searchedBooks']}
+                                                                 'deleteId', 'searchedBooks', 'deleteUri']}
                                                                  
 const persistedState=persistReducer(persistConfig,rootReducer)
 

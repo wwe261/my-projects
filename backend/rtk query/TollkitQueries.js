@@ -2,7 +2,7 @@
 
  export const productsApi=createApi({
     reducerPath:"books",
-    baseQuery:fetchBaseQuery({baseUrl: "http://10.31.189.231:5000/"}),
+    baseQuery:fetchBaseQuery({baseUrl: "http://10.31.144.0:5000/"}),
 
     endpoints:(builder)=>({
 

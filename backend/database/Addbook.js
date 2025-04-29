@@ -28,7 +28,7 @@
     }
  }  */
 
-    export const addBook = async (Title, Isbn, Category, Price, Authors) => {
+    export const addBook = async (Title, Isbn, Category, Price, Authors, image) => {
       try {
         // First, check if the book already exists by its ISBN
         const { data: existingBook, error: fetchError } = await supabase
@@ -61,13 +61,16 @@
           } */
         } else {
           // If the book doesn't exist, insert a new record
+         const imageUrl= await addBookCover(image)
           const { data, error } = await supabase.from('Books').insert({
             title: Title,
             isbn: Isbn,
             category: Category,
             price: parseFloat(Price),
             authors: Authors,
+            imageUri:imageUrl
           });
+         
           //ERRORS HELP US DURING DEBUGGING
           
           if (error) {
@@ -82,31 +85,38 @@
       }
     };
 
-
-    export const addBookCover=async(Image)=>{
-      const buffer = Buffer.from(Image, 'base64');
-
-        try{
-
-          const {data,error}=await supabase.storage.from('book-cover')
-          .upload(`book_cover${Date.now()}.png`, buffer,{
-            //contentType: 'image/png', 
-            cacheControl: '3600',
-            upsert: true,
-          })
-
-          if (error) {
-            console.error('Upload error:', error);
-          } else {
-            console.log('Upload success:', data);
+ 
+        export const addBookCover = async (Image) => {
+          const buffer = Buffer.from(Image, 'base64');
+          const fileName = `book_cover_${Date.now()}.png`;
+        
+          try {
+            const { data, error } = await supabase.storage.from('book-cover')
+              .upload(fileName, buffer, {
+                contentType: 'image/png',  // ← THIS IS IMPORTANT
+                cacheControl: '3600',
+                upsert: true,
+              });
+        
+            if (error) {
+              console.error('Upload error:', error);
+              return null;
+            } else {
+              console.log('Upload success:', data);
+        
+              // Now generate the public URL
+              const { data: publicUrlData } = supabase.storage.from('book-cover').getPublicUrl(fileName);
+              
+              console.log('Public URL:', publicUrlData.publicUrl);
+              return publicUrlData.publicUrl;  // Return the public URL
+            }
+        
+          } catch (error) {
+            console.log(error);
+            return null;
           }
-          
-        }catch(error){
-          console.log(error)
         }
-       
-    }
-    
+        
 
 
     

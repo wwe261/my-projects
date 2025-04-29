@@ -62,13 +62,13 @@ const Addbook = () => {
 //WHEN THE VALUE OF IMAGE IN REDUX CHANGES THIS SETS THE IMAGE PROPERTY TO THAT VALUE
   useEffect(()=>{
     handleChange('image', images)
+    
   },[images])
  
   
   
   
-  
-  
+
 
   return (<>
     <Text style={addBookStyles.adminAddBookSectionText}>ADD BOOK</Text>

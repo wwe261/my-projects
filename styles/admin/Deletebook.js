@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { RFValue } from "react-native-responsive-fontsize";
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { Dimensions } from "react-native";
 
@@ -47,11 +47,17 @@ deleteBookSearchIcon:{
     fontSize:RFValue(19),
     color:"white"
 },
+searchNotFoundText:{
+    color:"#fff",
+    textAlign:"center",
+    marginTop:"6%",
+    fontWeight:"bold",
+    fontSize:RFPercentage(2.5)
+
+},
 deleteBookSectionContainer:{
     flexDirection:"row",
     height:"100%",
-    
-
 },
 deleteBookTemplateContainer:{
     

@@ -18,9 +18,8 @@ app.post('/books/add',(req,res)=>{
     const{bookTitle,isbn,category,price, authors,image}=req.body
     console.log(req.body)
 try {
-
-    addBook(bookTitle,isbn,category,price, authors)
-     addBookCover(image)
+    
+    addBook(bookTitle,isbn,category,price, authors,image)
     res.status(201).json({ message: 'Book added successfully!' });
 
   } catch (error) {

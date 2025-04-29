@@ -15,7 +15,7 @@ const PickImageModal = () => {
     const dispatch=useDispatch()
     const {pickImageF, image, takePhoto}=cameraPermissions()
     
-
+   
 
     useEffect(()=>{
         dispatch(setUri(image))

@@ -1,12 +1,14 @@
 import { View, Text, TextInput, Image, TouchableOpacity, 
          ScrollView,TouchableWithoutFeedback, Keyboard, 
-         FlatList,Modal } from 'react-native'
+         FlatList,Modal,ActivityIndicator } from 'react-native'
 import { useContentWidthSizeChange } from '@/src/sharedFunctions/ContentSizeChange'
 import { useState, useEffect, useRef } from 'react'
 import { useSearchBookMutation } from '@/backend/rtk query/TollkitQueries'
 import { useSelector,useDispatch } from 'react-redux'
 import { setModalValue } from '@/src/redux/deleteConfirmationModal'
 import { setDeleteId } from '@/src/redux/deleteId'
+import { setDeleteUri } from '@/src/redux/deleteUri'
+
 import { setBooksFromSearch } from '@/src/redux/SearchResult'
 
 import { supabase } from '@/backend/database/connectDatabase'
@@ -23,14 +25,58 @@ const Deletebook = () => {
       const {scrollWidthEnabled, handleContentWidthSizeChange}=useContentWidthSizeChange()
       
      //THIS USE STATE CONTROLS CURRENT STATE OF YOUR SEARCHVALUE
-      const [searchValue, setSearchValue]=useState(null)
-
+      const [searchValue, setSearchValue]=useState('')
+      const [hasSearched, setHasSearched] = useState(false);
       /*THIS FUNCTION OR QUERY FROM RTK-QUERY WHICH RETURNS THE DATA OR MESSAGE FROM THE SERVER
         OR IF THERRE WAS AN ERROR IS THE DATA YOU SEN TO SERVER A SUCCESS OR WHAT */
       const [searchBook,{data,isLoading, isSuccess}]=useSearchBookMutation()
       
       //THIS VARIAABLE HOLDS THE SEARCH RESULTS WHICH YOU ARE STORING IN REDUX STORE
       const SearchedBooks=useSelector((state)=>state.searchedBooks.booksFromSearch)
+
+      /* THIS PART CHECKS IF THE SEARCHEDBOOKS WHICH CONTAINS THE RESULTS FROM YOUR SEARCH IT CHECKS IF IT
+       IS AN EMPTY ARRAY IF IT SO SETS THE SEARCH NOT FOUND STATE TO TRUE WHICH WE WILL USE TO RENDER A TEXT
+        STATING NO SEARCH RESULTS WERE FOUND */
+      const [searchNotFound, setSearchNotFound]=useState(false)
+      /*
+      useEffect(()=>{
+      
+         if (!searchValue || searchValue.trim() === "") {
+            setSearchNotFound(false);
+            
+             return;
+        }
+
+        if (!SearchedBooks || !Array.isArray(SearchedBooks.data)) {
+         setSearchNotFound(false);
+         return;
+                 }
+          if(SearchedBooks.data.length === 0){
+                  setSearchNotFound(true)
+         }else{
+               setSearchNotFound(false)
+         }  
+
+       
+       
+      },[SearchedBooks, searchValue])*/
+
+      useEffect(() => {
+         if (!searchValue.trim()) {
+            setSearchNotFound(false);
+            setHasSearched(false);
+         } else if (hasSearched) { 
+
+            if (SearchedBooks && Array.isArray(SearchedBooks.data)) {
+               if (SearchedBooks.data.length === 0) {
+                  setSearchNotFound(true);
+               } else {
+                  setSearchNotFound(false);
+               }
+            }
+
+         }
+      }, [SearchedBooks, searchValue, hasSearched])
 
       /*THIS FUNCTION HANDLES YOUR SEARCH ACTION WHEN USER SEARCHES FOR SOMETHING IT WILL BE STORED
        IN THE SEARCHVALUE STATE THEN PASSED ON TO  YOUR SERVER */
@@ -40,36 +86,45 @@ const Deletebook = () => {
                try{
                  
                   await searchBook({searchQuery:searchValue})
+                  setHasSearched(true)
                }catch(error){
-      
+                  console.log(error)
+                  setHasSearched(false);
                }  
              }else{
                  console.log("cant search empty string")
-             }
+                 dispatch(setBooksFromSearch({ data: [] }));
+             }         
              
       }
      
       //THIS HOLDS OR STORES THE ISD OF THE ITEM OR BOOK YOU WANT TO DELETE WHICH YOU ARE STORING IN THE REDUX STORE
-      //const deleteId=useSelector((state)=> state.deleteId.deleteId)
+      const deleteId=useSelector((state)=> state.deleteId.deleteId)
 
       const dispatch=useDispatch()
       
       /* THIS FUNCTION DOES 2 FUNCTINALITIES
        1. IT SETSTHE MODAL VALUE YOU ARE STORING IN YOUR TO TRUE SO THAT THE THE DELTECONFIRMATION MODAL APPEARS
        2. IT SETS THE DELETE ID YOU STORE IN YOUR REDUX TO THE ID OF THE CURRENT BOOK WHICH YOU RECENTLY CLICKED THE DELETE BUTTON OFF */
-      const handleDisplayDeleteModal=(id)=>{
+      const handleDisplayDeleteModal=(id, uri)=>{
          dispatch(setModalValue(true))
          dispatch(setDeleteId(id))
+         dispatch(setDeleteUri(uri))
+         
       }
 
       /* SINCE WE ARE STORING THE RESULTS SEARCHED DATA IN REDUX STORE WE FIRST CHECK IF THE SERVER HAS SENT THE DATA
        YET IF SO WE SET OUR REDUX STATE TO THIS SEARCH RESULTS */
+
+      
+                   
+                 
       useEffect(()=>{
          if(data){
             dispatch(setBooksFromSearch(data))
          }
       }, [data])
-       
+         
      
   return (<>
 
@@ -83,26 +138,40 @@ const Deletebook = () => {
                         <TextInput 
                         placeholder='Search for book by title or isbn ' 
                         style={deleteBookStyles.deleteBookSearchInput}
-                        onChangeText={(text)=>setSearchValue(text)}
+                        onChangeText={(text)=>{
+                           setSearchValue(text) 
+                           if (text.trim() === '') {
+                              dispatch(setBooksFromSearch({ data: [] })); // <<< CLEAR IMMEDIATELY ON EMPTY INPUT
+                            } }
+                        }
                         />
 
                            <TouchableOpacity style={deleteBookStyles.deleteBookIconContainer} onPress={handleSearch} >
-                                 <Icon name="search" style={deleteBookStyles.deleteBookSearchIcon}/>
+                                    {isLoading ? (
+                                    <ActivityIndicator size="small" color="#000" />  // <-- spinner when loading
+                                          ) : (
+                                          <Icon name="search" style={deleteBookStyles.deleteBookSearchIcon} /> // <-- normal search icon
+                                           )}
                            </TouchableOpacity>
 
                      </View>
-
+              {searchNotFound && (<Text style={deleteBookStyles.searchNotFoundText}>NO RESULTS FOR THIS SEARCH</Text>)}
               <FlatList
              data={SearchedBooks?.data}
              keyExtractor={(item)=> item.id}
              horizontal
              contentContainerStyle={{ paddingRight: "20%" }}
              renderItem={({item})=>(
+              
 
                <View style={deleteBookStyles.deleteBookTemplateContainer}>
                <View style={deleteBookStyles.deleteBookTemplate}>
                   <View style={deleteBookStyles.deleteBookImageFigure} >
-                        <Image source={require('../../../assets/images/You by Caroline Kepnes.webp')} style={deleteBookStyles.deleteBookImage}/>
+
+                   <Image source={{uri:`${item.imageUri}`}} 
+                   style={deleteBookStyles.deleteBookImage}
+                   />
+
                   </View>
                   <View style={deleteBookStyles.deleteBookInformationContainer}>
                      <Text> {item.title}</Text>
@@ -113,7 +182,7 @@ const Deletebook = () => {
                   </View>
                </View>
                <View style={deleteBookStyles.deleteBookDeleteButtonContainer}>
-                  <TouchableOpacity style={deleteBookStyles.deleteBookDeleteButton} onPress={()=>handleDisplayDeleteModal(item.id)}>
+                  <TouchableOpacity style={deleteBookStyles.deleteBookDeleteButton} onPress={()=>handleDisplayDeleteModal(item.id, item.imageUri)}>
                      <Text style={deleteBookStyles.deleteButtonText}>DELETE BOOK</Text>
                   </TouchableOpacity>
                </View>
@@ -134,7 +203,7 @@ const Deletebook = () => {
   
   
   
-  export default Deletebook;
+  export default Deletebook; 
   
 
 

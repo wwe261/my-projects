@@ -8,7 +8,7 @@
  import { useDeleteBookMutation } from '@/backend/rtk query/TollkitQueries'
  import { setBooksFromSearch } from '@/src/redux/SearchResult'
  import { supabase } from '@/backend/database/connectDatabase'
- const DeleteConfirmation = ({text, deleteId}) => {
+ const DeleteConfirmation = ({text, deleteId, deleteUri}) => {
 
     
   
@@ -17,6 +17,7 @@
     const dispatch=useDispatch()
     
 
+   
     const handleDelete=async()=>{
        /*
         try{
@@ -39,13 +40,26 @@
               if (error) {
                 console.log('Error deleting book:', error);
               } else {
-                console.log('Book deleted:', data);
                 dispatch(setModalValue(false));
-                dispatch( setBooksFromSearch( SearchedBooks.data.filter(book=>book.id !== data.id)))
+                
+                dispatch( setBooksFromSearch( {data: SearchedBooks.data.filter(book => book.id !== deleteId)}))
               }
             } catch (error) {
               console.log('Networking error:', error);
             } 
+           
+            const filePath =  deleteUri.substring(deleteUri.lastIndexOf('/') + 1);
+            const { data: storageData, error: storageError } = await supabase
+            .storage
+            .from('book-cover')
+            .remove([filePath]);
+      
+          if (storageError) {
+            console.log('Error deleting image:', storageError);
+          
+          }
+
+
     }
   
     const SearchedBooks=useSelector((state)=>state.searchedBooks.booksFromSearch)
@@ -60,7 +74,7 @@
           table: 'Books',
         },
         (payload) => {
-          console.log('Book deleted:', payload.old);
+          //console.log('Book deleted:', payload.old);
           //dispatch( setBooksFromSearch( SearchedBooks.data.filter(book=>book.id !==  payload.old.id)))
         }
       )

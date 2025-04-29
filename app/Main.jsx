@@ -19,7 +19,6 @@ import ItemReviewScreen from '../src/components/frontend/ItemReviewScreen'
 import YourReviews from '../src/components/frontend/YourReviews'
 import SettingsScreen from '../src/components/frontend/SettingsScreen'
 import PickImageModal from '../src/components/admin/PickImageModal'
-import Images from '../src/components/admin/Images'
 import DeleteConfirmation from '../src/sharedComponets/DeleteConfirmation'
 const Stack =createNativeStackNavigator();
 

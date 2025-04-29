@@ -73,13 +73,15 @@ const [component, setComponent]=useState('welcomePage')
       const [text, setText]=useState("Book")
       
       const deleteId=useSelector((state)=> state.deleteId.deleteId)
+      const deleteUri=useSelector((state)=> state.deleteUri.deleteUri)
+       
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <GestureHandlerRootView style={{flex:1}}>
     <View style={[adminStyles.adminContainer, ]}>
 
      
-       {displayConfirmationModal && <DeleteConfirmation deleteId={deleteId} text={text}/>}
+       {displayConfirmationModal && <DeleteConfirmation deleteId={deleteId} text={text} deleteUri={deleteUri}/>}
      
      {/* This code is for the analytics of our store like the number of books sold, number of user accounts, revenues generated
          & number of books available */}
