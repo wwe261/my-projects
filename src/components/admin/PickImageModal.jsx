@@ -1,16 +1,13 @@
 import { View, Text,TouchableOpacity } from 'react-native'
 import { useDispatch } from 'react-redux'
-
 import { setValue } from '@/src/redux/openPickImageSlicer'
 import {cameraPermissions} from '../../sharedFunctions/cameraPermissions'
-
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet'
-
 import { useEffect } from 'react'
-
-
-import pickImage from '../../../styles/admin/pickImageModal'
 import { setUri } from '@/src/redux/ImageUri'
+import { setUpdateUri } from '@/src/redux/updateImageUri'
+import pickImage from '../../../styles/admin/pickImageModal'
+
 const PickImageModal = () => {
     const dispatch=useDispatch()
     const {pickImageF, image, takePhoto}=cameraPermissions()
@@ -19,6 +16,7 @@ const PickImageModal = () => {
 
     useEffect(()=>{
         dispatch(setUri(image))
+        dispatch(setUpdateUri(image))
     },[image])
     
   return (<>

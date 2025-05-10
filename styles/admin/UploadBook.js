@@ -29,7 +29,8 @@ const uploadBookStyles=StyleSheet.create({
     borderBottomLeftRadius:13,
     borderTopLeftRadius:13,
     fontWeight:"bold",
-    paddingLeft:"3%"
+    paddingLeft:"3%",
+    height:hp(5)
 
    },
    uploadBookSearchIconContainer:{
@@ -50,12 +51,17 @@ const uploadBookStyles=StyleSheet.create({
       
    },
    uploadBookInputContainer:{
-     
-      backgroundColor:"white",
       marginTop:"2%"
    },
    updateBookInput:{
-      fontWeight:"bold"
+      fontWeight:"bold",
+      height:hp(5),
+      paddingLeft:"3%",
+      borderColor:"#fff",
+      borderWidth:2,
+      borderStyle:"solid",
+      borderRadius:19,
+      color:"#fff"
    },
    uploadBookImagePreviewContainer:{
       
@@ -68,13 +74,15 @@ const uploadBookStyles=StyleSheet.create({
       display:"flex",
       flexDirection:"row",
       justifyContent:"space-evenly",
-      height:hp(5) 
+      height:hp(5) ,
+      borderRadius:19
       
    },
    updateBookButton:{
       display:"flex",
       justifyContent:"center",
-      alignItems:"center"
+      alignItems:"center",
+     
    },
    updateBookButtonText:{
       color:"white",
@@ -111,7 +119,8 @@ const uploadBookStyles=StyleSheet.create({
       height:hp(5),
       display:"flex",
       justifyContent:"center",
-      alignItems:"center"
+      alignItems:"center",
+      borderRadius:19
    },
    updateBookInDatatabaseText:{
       textAlign:"center",

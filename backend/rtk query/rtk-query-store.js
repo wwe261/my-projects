@@ -9,11 +9,16 @@ import openPickImageReducer from '../../src/redux/openPickImageSlicer'
 import imageUriReducer from '../../src/redux/ImageUri'
 import persistDashboardPagesReducer from '../../src/redux/persistDashboardPages'
 import addBookInputValuesReducer from '../../src/redux/AddBookInputValue'
-import pickImage from "@/styles/admin/pickImageModal";
 import deleteConfirmationModalReducer from '../../src/redux/deleteConfirmationModal'
 import deleteIdReducer from '../../src/redux/deleteId'
 import searchResultsReducer from '../../src/redux/SearchResult'
 import deleteUriReducer from '../../src/redux/deleteUri'
+import deleteSearchValueReducer from '../../src/redux/deleteSearchValue'
+import searchValueReducer from '../../src/redux/searchValue'
+import updateValueReducer from '../../src/redux/searchUpdateBook'
+import updateSearchResultsReducer from '../../src/redux/updateSearchResult'
+import UpdateBookInputValuesReducer from '../../src/redux/UpdateBookInputValue'
+import updateImageUriReducer from '../../src/redux/updateImageUri'
 
 const rootReducer=combineReducers({
     pickImage:openPickImageReducer,
@@ -24,12 +29,18 @@ const rootReducer=combineReducers({
     deleteConfirmationModal:deleteConfirmationModalReducer,
     deleteId:deleteIdReducer,
     searchedBooks:searchResultsReducer,
-    deleteUri:deleteUriReducer
+    deleteUri:deleteUriReducer,
+    deleteSearchValue:deleteSearchValueReducer,
+    searchValue:searchValueReducer,
+    updateSearchValue:updateValueReducer,
+    updateResults:updateSearchResultsReducer,
+    updateBookInputValues:UpdateBookInputValuesReducer,
+    updateImageUri:updateImageUriReducer
 
 })
 const persistConfig={key:'root',storage, version:1, blacklist: [productsApi.reducerPath, 
                                                                 'pickImage', 'deleteConfirmationModal',
-                                                                 'deleteId', 'searchedBooks', 'deleteUri']}
+                                                                 'deleteId', , 'deleteUri',  ]}
                                                                  
 const persistedState=persistReducer(persistConfig,rootReducer)
 

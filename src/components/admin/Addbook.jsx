@@ -67,8 +67,6 @@ const Addbook = () => {
  
   
   
-  
-
 
   return (<>
     <Text style={addBookStyles.adminAddBookSectionText}>ADD BOOK</Text>

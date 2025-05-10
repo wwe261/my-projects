@@ -1,9 +1,9 @@
 import {useState, useEffect} from 'react'
 import { useDispatch,useSelector } from 'react-redux'
-import { updateFields } from '@/src/redux/AddBookInputValue'
+import { updateFields } from '../../redux/UpdateBookInputValue'
 
 
-export function validateInput(){
+export function updateValidateInput(){
     //const [formData, setFormData]=useState({})
     const [errors, setErrors]=useState({})
     
@@ -14,7 +14,7 @@ export function validateInput(){
     }
     
 
-    const formData=useSelector((state)=> state.addBookInputValues.bookFormData)
+    const formData=useSelector((state)=> state.updateBookInputValues.bookFormData)
     
     const validateForm=()=>{
         const validationErrors={}
@@ -48,7 +48,7 @@ export function validateInput(){
             validationErrors.price="cannot contain special characters"
         }
         
-        if(!formData.image || /*!formData.authors.trim()*/ formData.image === undefined){
+        if(!formData.image || formData.image === undefined){
             validationErrors.image="Image is required"
         }
        

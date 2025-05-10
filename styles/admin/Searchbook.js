@@ -1,7 +1,9 @@
 import { StyleSheet } from "react-native";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { RFValue } from "react-native-responsive-fontsize";
+import { Dimensions } from "react-native";
 
+const {width:screenWidth}=Dimensions.get('window')
 
 const SearchBookStyles=StyleSheet.create({
    searchBookText:{
@@ -11,10 +13,7 @@ const SearchBookStyles=StyleSheet.create({
      fontSize:RFValue(14)
    },
    searchBookContainer:{
-    
      height:"100%"
-     
-     
    },
    searchBooksearchContainer:{
       backgroundColor:"white",
@@ -31,7 +30,8 @@ const SearchBookStyles=StyleSheet.create({
      borderBottomLeftRadius:13,
      borderTopLeftRadius:13,
      fontWeight:"bold",
-     paddingLeft:"3%"
+     paddingLeft:"3%",
+     height:hp(5)
    },
    searchBookIconContainer:{
     width:"12%",
@@ -61,7 +61,7 @@ const SearchBookStyles=StyleSheet.create({
      display:"flex",
      flexDirection:"row",
      height:"18%",
-     width:"40%",
+     width:screenWidth * 0.65,
      marginLeft:"2%"  
    },
    searchBookTemplateFigure:{

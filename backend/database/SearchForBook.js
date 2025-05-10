@@ -26,7 +26,7 @@
     try {
       const { data, error } = await supabase
         .from('Books')
-        .select('id, title, authors, category, price, quantity, imageUri') // include imageUri if needed
+        .select('id, title, authors, category, price, quantity, imageUri,isbn') // include imageUri if needed
         .or(
           `title.ilike.%${trimmedSearchTerm}%,isbn.ilike.%${trimmedSearchTerm}%`
         );

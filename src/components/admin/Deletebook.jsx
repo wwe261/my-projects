@@ -1,15 +1,16 @@
 import { View, Text, TextInput, Image, TouchableOpacity, 
          ScrollView,TouchableWithoutFeedback, Keyboard, 
          FlatList,Modal,ActivityIndicator } from 'react-native'
+
 import { useContentWidthSizeChange } from '@/src/sharedFunctions/ContentSizeChange'
 import { useState, useEffect, useRef } from 'react'
 import { useSearchBookMutation } from '@/backend/rtk query/TollkitQueries'
 import { useSelector,useDispatch } from 'react-redux'
-import { setModalValue } from '@/src/redux/deleteConfirmationModal'
-import { setDeleteId } from '@/src/redux/deleteId'
-import { setDeleteUri } from '@/src/redux/deleteUri'
-
-import { setBooksFromSearch } from '@/src/redux/SearchResult'
+import { setModalValue } from '../../redux/deleteConfirmationModal'
+import { setDeleteId } from '../../redux/deleteId'
+import { setDeleteUri } from '../../redux/deleteUri'
+import { setDeleteSearch } from '../../redux/deleteSearchValue'
+import { setBooksFromSearch } from '../../redux/SearchResult'
 
 import { supabase } from '@/backend/database/connectDatabase'
 
@@ -19,14 +20,17 @@ import deleteBookStyles from '../../../styles/admin/Deletebook'
 import SearchBookStyles from '../../../styles/admin/Searchbook'
 
 
-
 const Deletebook = () => {
       //THIS IS THE CODE FOR CONTROLING THE SCREEN BEHAVIOUR WHEN USER IS SCROLLING
       const {scrollWidthEnabled, handleContentWidthSizeChange}=useContentWidthSizeChange()
       
      //THIS USE STATE CONTROLS CURRENT STATE OF YOUR SEARCHVALUE
-      const [searchValue, setSearchValue]=useState('')
+      const searchValue=useSelector((state)=> state.deleteSearchValue.searchValue)
       const [hasSearched, setHasSearched] = useState(false);
+
+      useEffect(()=>{
+         console.log(searchValue)
+      },[searchValue])
       /*THIS FUNCTION OR QUERY FROM RTK-QUERY WHICH RETURNS THE DATA OR MESSAGE FROM THE SERVER
         OR IF THERRE WAS AN ERROR IS THE DATA YOU SEN TO SERVER A SUCCESS OR WHAT */
       const [searchBook,{data,isLoading, isSuccess}]=useSearchBookMutation()
@@ -138,8 +142,9 @@ const Deletebook = () => {
                         <TextInput 
                         placeholder='Search for book by title or isbn ' 
                         style={deleteBookStyles.deleteBookSearchInput}
+                        value={searchValue}
                         onChangeText={(text)=>{
-                           setSearchValue(text) 
+                           dispatch(setDeleteSearch(text))
                            if (text.trim() === '') {
                               dispatch(setBooksFromSearch({ data: [] })); // <<< CLEAR IMMEDIATELY ON EMPTY INPUT
                             } }
@@ -148,20 +153,20 @@ const Deletebook = () => {
 
                            <TouchableOpacity style={deleteBookStyles.deleteBookIconContainer} onPress={handleSearch} >
                                     {isLoading ? (
-                                    <ActivityIndicator size="small" color="#000" />  // <-- spinner when loading
+                                    <ActivityIndicator size="small" color="#000" />  
                                           ) : (
-                                          <Icon name="search" style={deleteBookStyles.deleteBookSearchIcon} /> // <-- normal search icon
-                                           )}
+                                          <Icon name="search" style={deleteBookStyles.deleteBookSearchIcon} /> 
+                                    )}
                            </TouchableOpacity>
 
                      </View>
               {searchNotFound && (<Text style={deleteBookStyles.searchNotFoundText}>NO RESULTS FOR THIS SEARCH</Text>)}
               <FlatList
-             data={SearchedBooks?.data}
-             keyExtractor={(item)=> item.id}
-             horizontal
-             contentContainerStyle={{ paddingRight: "20%" }}
-             renderItem={({item})=>(
+               data={SearchedBooks?.data}
+               keyExtractor={(item)=> item.id}
+               horizontal
+               contentContainerStyle={{ paddingRight: "20%" }}
+               renderItem={({item})=>(
               
 
                <View style={deleteBookStyles.deleteBookTemplateContainer}>

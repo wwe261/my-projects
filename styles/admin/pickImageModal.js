@@ -12,7 +12,8 @@ const pickImage=StyleSheet.create({
         textAlign:"center",
         fontWeight:"bold",
         padding:"3%",
-        fontSize:RFPercentage(3)
+        fontSize:RFPercentage(3),
+        
     },
     wrapper:{
        

@@ -6,29 +6,17 @@
  import { setModalValue } from '../redux/deleteConfirmationModal'
 
  import { useDeleteBookMutation } from '@/backend/rtk query/TollkitQueries'
- import { setBooksFromSearch } from '@/src/redux/SearchResult'
+ import { setBooksFromSearch } from '../redux/SearchResult'
  import { supabase } from '@/backend/database/connectDatabase'
  const DeleteConfirmation = ({text, deleteId, deleteUri}) => {
 
     
-  
     const [deleteItem,{isLoading, isSuccess}]=useDeleteBookMutation()
 
     const dispatch=useDispatch()
     
-
-   
     const handleDelete=async()=>{
-       /*
-        try{
-            
-          await deleteItem(deleteId).unwrap()
-          if(isSuccess){
-            dispatch(setModalValue(false))
-          }
-        }catch(error){
-            console.log("networkking",error)
-        } */
+  
 
             try {
               const { data, error } = await supabase
@@ -49,6 +37,7 @@
             } 
            
             const filePath =  deleteUri.substring(deleteUri.lastIndexOf('/') + 1);
+            
             const { data: storageData, error: storageError } = await supabase
             .storage
             .from('book-cover')
@@ -63,23 +52,7 @@
     }
   
     const SearchedBooks=useSelector((state)=>state.searchedBooks.booksFromSearch)
-    useEffect(()=>{
-      const subscription = supabase
-      .channel('realtime-books')
-      .on(
-        'postgres_changes',
-        {
-          event: 'DELETE', 
-          schema: 'public', 
-          table: 'Books',
-        },
-        (payload) => {
-          //console.log('Book deleted:', payload.old);
-          //dispatch( setBooksFromSearch( SearchedBooks.data.filter(book=>book.id !==  payload.old.id)))
-        }
-      )
-      .subscribe();
-   },[])
+   
      return (<>
         <View style={deleteConfirm.containerWrapper}>
         <View style={deleteConfirm.container}>
