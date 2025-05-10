@@ -20,6 +20,8 @@ import YourReviews from '../src/components/frontend/YourReviews'
 import SettingsScreen from '../src/components/frontend/SettingsScreen'
 import PickImageModal from '../src/components/admin/PickImageModal'
 import DeleteConfirmation from '../src/sharedComponets/DeleteConfirmation'
+import SuccesLoadingModal from '../src/sharedComponets/Sucess&LoadingModal'
+
 const Stack =createNativeStackNavigator();
 
 const Main = () => {
@@ -30,8 +32,7 @@ const Main = () => {
             <Stack.Screen name="settings" component={SettingsScreen}/>
             <Stack.Screen name="me" component={AccountMeScreen}/>
             <Stack.Screen name="addItemToCartScreen" component={AdditemtocartScreen}/>
-            <Stack.Screen name="dashboard" component={Dashboard}/>
-            
+            <Stack.Screen name="dashboard" component={Dashboard}/>     
     </Stack.Navigator>
 
   )

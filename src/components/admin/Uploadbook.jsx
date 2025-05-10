@@ -98,9 +98,7 @@ const Uploadbook = () => {
         }   
      },[imageUri, searchResults]) 
 
-      useEffect(()=>{
-        console.log(formData)
-      }, [formData])
+      
 
      useEffect(() => {
         if (!searchValue.trim()) {

@@ -1,5 +1,5 @@
 import { View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import {supabase} from '../../../backend/database/connectDatabase'
 
@@ -13,8 +13,11 @@ import { cameraPermissions } from '@/src/sharedFunctions/cameraPermissions'
 import {useAddBooksMutation} from '../../../backend/rtk query/TollkitQueries'
 import { setUri } from '@/src/redux/ImageUri'
 import { resetForm } from '@/src/redux/AddBookInputValue'
+import SucessLoadingModal from '@/src/sharedComponets/Sucess&LoadingModal'
 
 const Addbook = () => {
+ const [display, setDisplay]=useState(false)
+
 
   const {validateForm, handleChange,formData,errors}=validateInput()
   const [addnewBook,{data,error,isLoading,isSuccess}]=useAddBooksMutation()
@@ -65,12 +68,27 @@ const Addbook = () => {
     
   },[images])
  
-  
+  useEffect(()=>{
+    if(isLoading){
+      setDisplay(true)
+    }else{
+      setDisplay(false)
+    }
+
+    if(isSuccess){
+      setDisplay(true)
+    }else{
+      setDisplay(false)
+    }
+  }, [isLoading, isSuccess])
   
 
   return (<>
-    <Text style={addBookStyles.adminAddBookSectionText}>ADD BOOK</Text>
+    
+     {display && <SucessLoadingModal isLoading={isLoading} isSuccess={isSuccess} text="added" />}
 
+    <Text style={addBookStyles.adminAddBookSectionText}>ADD BOOK</Text>
+   
         <ScrollView style={addBookStyles.adminAddBookSection}>
               <View style={addBookStyles.adminAddBookInputs}>
                   <TextInput placeholder='BOOK TITLE...' 
