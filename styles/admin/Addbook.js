@@ -73,6 +73,11 @@ const addBookStyles=StyleSheet.create({
         color:"white",
         fontWeight:"bold",
         textAlign:"center",
+    },
+    errorText:{
+        color:"red",
+        fontWeight:"bold",
+        marginLeft:"3%"
     }
 })
 

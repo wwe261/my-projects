@@ -1,4 +1,4 @@
-import { View, Text, Button, TouchableOpacity, TextInput,TouchableWithoutFeedback,Keyboard, Modal} from 'react-native'
+import { View, Text, Button, TouchableOpacity, TextInput,TouchableWithoutFeedback,Keyboard, Modal, ScrollView} from 'react-native'
 import { useEffect, useRef, useState, useMemo } from 'react'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { useDispatch,useSelector } from 'react-redux'
@@ -8,6 +8,8 @@ import { setPageToRender } from '@/src/redux/persistDashboardPages'
 
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
 import { useNavigation } from 'expo-router'
+import { useContentSizeChange } from '@/src/sharedFunctions/ContentSizeChange'
+
 
 import BottomSheet from '@gorhom/bottom-sheet'
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -23,8 +25,8 @@ import PickImageModal from './PickImageModal'
 import DeleteConfirmation from '@/src/sharedComponets/DeleteConfirmation'
 const Dashboard = () => {
 /* THIS CODE IS FOR RENDERING THE COMPONENTS WHICH ARE ADDBOOK, WELCOMEPAGE,ETC... */
-const [component, setComponent]=useState('welcomePage')
-
+  const [component, setComponent]=useState('welcomePage')
+  const {scrollEnabled, handleContentSizeChange}=useContentSizeChange()
       const renderComponents=()=>{
         switch (component){
           case 'addBook':
@@ -111,7 +113,11 @@ const [component, setComponent]=useState('welcomePage')
 
      <View style={adminStyles.adminMainSection}>
 
-      <View style={adminStyles.adminAddBookSectionContainer} >
+      <View 
+       contentContainerStyle={adminStyles.adminAddBookSectionContainer}
+       scrollEnabled={scrollEnabled}  
+       onContentSizeChange={handleContentSizeChange} 
+       >
 
         {renderComponents()}
 

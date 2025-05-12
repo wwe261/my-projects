@@ -17,7 +17,10 @@ const Signup = () => {
             <View style={signupStyles.inputsWrapper}>
 
                 <View style={signupStyles.textInputWrapper}>
-                    <TextInput placeholder='Username' style={signupStyles.textInput}/>
+                    <TextInput 
+                     placeholder='Username' style={signupStyles.textInput}
+                     
+                    />
                 </View>
 
                 <View style={signupStyles.textInputWrapper}>

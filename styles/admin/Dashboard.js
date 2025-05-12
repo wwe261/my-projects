@@ -63,7 +63,7 @@ const adminStyles=StyleSheet.create({
         alignItems:"center",
         width:"19%",
         padding:"0.7%",
-        borderRadius:10
+        borderRadius:10  
     },
     adminButtonTextStyles:{
         color:"white",
@@ -86,8 +86,8 @@ const adminStyles=StyleSheet.create({
     },
     adminAddBookSectionContainer:{
         height:"100%", 
-        padding:"2%"
-        
+        padding:"2%",
+        marginBottom:"12.8%"
         
     },
     

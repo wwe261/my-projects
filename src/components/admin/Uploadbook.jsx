@@ -4,7 +4,7 @@ import { setUpdateUri } from '@/src/redux/updateImageUri'
 import { setUpdateValue } from '@/src/redux/searchUpdateBook'
 import { resetForm } from '@/src/redux/UpdateBookInputValue'
 import { setupdateBooksFromSearch } from '@/src/redux/updateSearchResult'
-import {updateValidateInput,} from '../adminFunctions/updateValidateInput'
+import {updateValidateInput,} from '../../adminFunctions/updateValidateInput'
 import { setValue } from '@/src/redux/openPickImageSlicer'
 import { useUpdateBookMutation } from '@/backend/rtk query/TollkitQueries'
 import { useSearchForBookMutation } from '@/backend/rtk query/TollkitQueries'
@@ -13,7 +13,7 @@ import { useEffect,useState } from 'react'
 
 import Icon from 'react-native-vector-icons/FontAwesome'
 import uploadBookStyles from '../../../styles/admin/UploadBook'
-
+import SucessLoadingModal from '@/src/sharedComponets/Sucess&LoadingModal'
 const Uploadbook = () => {
  
     const {formData,handleChange,errors, validateForm}=updateValidateInput()
@@ -24,9 +24,10 @@ const Uploadbook = () => {
     const searchResults=useSelector((state)=> state.updateResults.updateBooksFromSearch)
     const searchValue=useSelector((state)=> state.updateSearchValue.searchValue)
     const imageUri=useSelector((state)=> state.updateImageUri.imageUri)
+
     const [hasSearched, setHasSearched]=useState(false)
     const [searchNotFound, setSearchNotFound]=useState(false)
-    
+    const [display, setDisplay]=useState(false)
 
     const handleSubmit=async()=>{
         if(validateForm()){
@@ -122,8 +123,19 @@ const Uploadbook = () => {
             dispatch(setupdateBooksFromSearch(data))
         }
      },[data])
+
+     useEffect(()=>{
+        if(isLoading || isSuccess){
+            setDisplay(true)
+        }else{
+            setDisplay(false)
+        }
+
+
+     }, [isLoading, isSuccess])
      
   return (<>
+       {display && (<SucessLoadingModal isLoading={isLoading} isSuccess={isSuccess} text='updated'/>)}
        <Text style={uploadBookStyles.uploadBookText}>UPDATE BOOK</Text>
 
        <View style={uploadBookStyles.uploadBookSection}>

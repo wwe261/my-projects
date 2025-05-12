@@ -19,6 +19,7 @@ import updateValueReducer from '../../src/redux/searchUpdateBook'
 import updateSearchResultsReducer from '../../src/redux/updateSearchResult'
 import UpdateBookInputValuesReducer from '../../src/redux/UpdateBookInputValue'
 import updateImageUriReducer from '../../src/redux/updateImageUri'
+import DeleteSuccessLoadReducer from '../../src/redux/DeleteSuccessLoad'
 
 const rootReducer=combineReducers({
     pickImage:openPickImageReducer,
@@ -35,12 +36,13 @@ const rootReducer=combineReducers({
     updateSearchValue:updateValueReducer,
     updateResults:updateSearchResultsReducer,
     updateBookInputValues:UpdateBookInputValuesReducer,
-    updateImageUri:updateImageUriReducer
+    updateImageUri:updateImageUriReducer,
+    deleteSuccessLoad:DeleteSuccessLoadReducer
 
 })
 const persistConfig={key:'root',storage, version:1, blacklist: [productsApi.reducerPath, 
                                                                 'pickImage', 'deleteConfirmationModal',
-                                                                 'deleteId', , 'deleteUri',  ]}
+                                                                 'deleteId', , 'deleteUri', 'deleteSuccessLoad'  ]}
                                                                  
 const persistedState=persistReducer(persistConfig,rootReducer)
 

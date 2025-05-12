@@ -11,59 +11,46 @@ import { setDeleteId } from '../../redux/deleteId'
 import { setDeleteUri } from '../../redux/deleteUri'
 import { setDeleteSearch } from '../../redux/deleteSearchValue'
 import { setBooksFromSearch } from '../../redux/SearchResult'
-
+import { useDeleteBookMutation } from '@/backend/rtk query/TollkitQueries'
 import { supabase } from '@/backend/database/connectDatabase'
 
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 import deleteBookStyles from '../../../styles/admin/Deletebook'
 import SearchBookStyles from '../../../styles/admin/Searchbook'
-
+import SucessLoadingModal from '@/src/sharedComponets/Sucess&LoadingModal'
 
 const Deletebook = () => {
+
+      const deleteId=useSelector((state)=> state.deleteId.deleteId)
+      const dispatch=useDispatch()
+      const searchValue=useSelector((state)=> state.deleteSearchValue.searchValue)
+      const SearchedBooks=useSelector((state)=>state.searchedBooks.booksFromSearch)
+      const deleteLoad = useSelector((state) => state.deleteSuccessLoad.loading);
+      const deleteSuccess = useSelector((state) => state.deleteSuccessLoad.success);
+
+      const [searchNotFound, setSearchNotFound]=useState(false)
+      const [hasSearched, setHasSearched] = useState(false);
+      const [display,setDisplay]=useState(false)
+
+      const [searchBook,{data,isLoading, isSuccess}]=useSearchBookMutation()
       //THIS IS THE CODE FOR CONTROLING THE SCREEN BEHAVIOUR WHEN USER IS SCROLLING
       const {scrollWidthEnabled, handleContentWidthSizeChange}=useContentWidthSizeChange()
-      
      //THIS USE STATE CONTROLS CURRENT STATE OF YOUR SEARCHVALUE
-      const searchValue=useSelector((state)=> state.deleteSearchValue.searchValue)
-      const [hasSearched, setHasSearched] = useState(false);
-
-      useEffect(()=>{
-         console.log(searchValue)
-      },[searchValue])
+      
+      
       /*THIS FUNCTION OR QUERY FROM RTK-QUERY WHICH RETURNS THE DATA OR MESSAGE FROM THE SERVER
         OR IF THERRE WAS AN ERROR IS THE DATA YOU SEN TO SERVER A SUCCESS OR WHAT */
-      const [searchBook,{data,isLoading, isSuccess}]=useSearchBookMutation()
+      
       
       //THIS VARIAABLE HOLDS THE SEARCH RESULTS WHICH YOU ARE STORING IN REDUX STORE
-      const SearchedBooks=useSelector((state)=>state.searchedBooks.booksFromSearch)
+      
 
       /* THIS PART CHECKS IF THE SEARCHEDBOOKS WHICH CONTAINS THE RESULTS FROM YOUR SEARCH IT CHECKS IF IT
        IS AN EMPTY ARRAY IF IT SO SETS THE SEARCH NOT FOUND STATE TO TRUE WHICH WE WILL USE TO RENDER A TEXT
         STATING NO SEARCH RESULTS WERE FOUND */
-      const [searchNotFound, setSearchNotFound]=useState(false)
-      /*
-      useEffect(()=>{
       
-         if (!searchValue || searchValue.trim() === "") {
-            setSearchNotFound(false);
-            
-             return;
-        }
-
-        if (!SearchedBooks || !Array.isArray(SearchedBooks.data)) {
-         setSearchNotFound(false);
-         return;
-                 }
-          if(SearchedBooks.data.length === 0){
-                  setSearchNotFound(true)
-         }else{
-               setSearchNotFound(false)
-         }  
-
-       
-       
-      },[SearchedBooks, searchValue])*/
+      
 
       useEffect(() => {
          if (!searchValue.trim()) {
@@ -103,9 +90,7 @@ const Deletebook = () => {
       }
      
       //THIS HOLDS OR STORES THE ISD OF THE ITEM OR BOOK YOU WANT TO DELETE WHICH YOU ARE STORING IN THE REDUX STORE
-      const deleteId=useSelector((state)=> state.deleteId.deleteId)
-
-      const dispatch=useDispatch()
+     
       
       /* THIS FUNCTION DOES 2 FUNCTINALITIES
        1. IT SETSTHE MODAL VALUE YOU ARE STORING IN YOUR TO TRUE SO THAT THE THE DELTECONFIRMATION MODAL APPEARS
@@ -120,19 +105,29 @@ const Deletebook = () => {
       /* SINCE WE ARE STORING THE RESULTS SEARCHED DATA IN REDUX STORE WE FIRST CHECK IF THE SERVER HAS SENT THE DATA
        YET IF SO WE SET OUR REDUX STATE TO THIS SEARCH RESULTS */
 
-      
-                   
-                 
+              
       useEffect(()=>{
          if(data){
             dispatch(setBooksFromSearch(data))
          }
       }, [data])
-         
+      
+      useEffect(() => {
+      if (deleteLoad || deleteSuccess) {
+          setDisplay(true);
+    } else {
+    setDisplay(false);
+  }
+   }, [deleteLoad, deleteSuccess]);
+
+     
+
+        
      
   return (<>
 
-       
+        {display && (<SucessLoadingModal isLoading={deleteLoad} isSuccess={deleteSuccess} text='deleted'/>)}
+
        <Text style={deleteBookStyles.deleteBookText}>DELETE BOOK</Text>
   
             <View style={deleteBookStyles.deleteBookContainer}>
@@ -179,7 +174,7 @@ const Deletebook = () => {
 
                   </View>
                   <View style={deleteBookStyles.deleteBookInformationContainer}>
-                     <Text> {item.title}</Text>
+                     <Text numberOfLines={1} ellipsizeMode="tail"> {item.title}</Text>
                      <Text> {item.authors} </Text>
                      <Text> {item.price}</Text>
                      <Text>{item.category}</Text>

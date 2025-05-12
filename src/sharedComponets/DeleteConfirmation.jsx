@@ -2,9 +2,8 @@
  import deleteConfirm from '../../styles/sharedComponents/deleteConfirmation'
  import { useSelector,useDispatch } from 'react-redux'
  import { useEffect } from 'react'
-
  import { setModalValue } from '../redux/deleteConfirmationModal'
-
+ import { setDeleteStatus } from '../redux/DeleteSuccessLoad'
  import { useDeleteBookMutation } from '@/backend/rtk query/TollkitQueries'
  import { setBooksFromSearch } from '../redux/SearchResult'
  import { supabase } from '@/backend/database/connectDatabase'
@@ -12,12 +11,11 @@
 
     
     const [deleteItem,{isLoading, isSuccess}]=useDeleteBookMutation()
-
+  
     const dispatch=useDispatch()
     
     const handleDelete=async()=>{
-  
-
+      dispatch(setDeleteStatus({ loading: true, success: false }));
             try {
               const { data, error } = await supabase
                 .from('Books')
@@ -31,11 +29,18 @@
                 dispatch(setModalValue(false));
                 
                 dispatch( setBooksFromSearch( {data: SearchedBooks.data.filter(book => book.id !== deleteId)}))
+                dispatch(setDeleteStatus({ loading: false, success: true }));
               }
+               
+
+
+            
             } catch (error) {
+
               console.log('Networking error:', error);
+
             } 
-           
+
             const filePath =  deleteUri.substring(deleteUri.lastIndexOf('/') + 1);
             
             const { data: storageData, error: storageError } = await supabase
@@ -47,9 +52,20 @@
             console.log('Error deleting image:', storageError);
           
           }
-
+           
+            
 
     }
+    
+
+      
+    
+      
+    
+
+
+
+    
   
     const SearchedBooks=useSelector((state)=>state.searchedBooks.booksFromSearch)
    

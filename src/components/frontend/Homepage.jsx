@@ -23,7 +23,7 @@ const Homepage = () => {
     useEffect(()=>{
         headerTextAnimation()
     }, [])
-     
+      
      const [keyboardVisible, setKeyboardVisible] = useState(false);
       useEffect(() => {
       const showSub = Keyboard.addListener('keyboardDidShow', () => setKeyboardVisible(true));

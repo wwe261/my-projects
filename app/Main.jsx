@@ -26,7 +26,7 @@ const Stack =createNativeStackNavigator();
 
 const Main = () => {
   return (
-    <Stack.Navigator initialRouteName="dashboard" screenOptions={{ headerShown: false }} >
+    <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }} >
             <Stack.Screen name="Home" component={Homepage}/>
             <Stack.Screen name="search" component={Searchscreen}/>
             <Stack.Screen name="settings" component={SettingsScreen}/>

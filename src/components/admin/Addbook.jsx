@@ -6,7 +6,7 @@ import {supabase} from '../../../backend/database/connectDatabase'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 import addBookStyles from '../../../styles/admin/Addbook'
-import {validateInput} from '../adminFunctions/validateInput'
+import {validateInput} from '../../adminFunctions/validateInput'
 import { useDispatch, useSelector } from 'react-redux'
 import { setValue } from '@/src/redux/openPickImageSlicer'
 import { cameraPermissions } from '@/src/sharedFunctions/cameraPermissions'
@@ -17,7 +17,7 @@ import SucessLoadingModal from '@/src/sharedComponets/Sucess&LoadingModal'
 
 const Addbook = () => {
  const [display, setDisplay]=useState(false)
-
+ const [displayError, setDisplayError]=useState(false)
 
   const {validateForm, handleChange,formData,errors}=validateInput()
   const [addnewBook,{data,error,isLoading,isSuccess}]=useAddBooksMutation()
@@ -82,7 +82,13 @@ const Addbook = () => {
     }
   }, [isLoading, isSuccess])
   
-
+   
+   useEffect(()=>{
+      if(Object.keys(errors).length !==0){
+        setDisplayError(true)
+      }
+      console.log(errors)
+   }, [errors])
   return (<>
     
      {display && <SucessLoadingModal isLoading={isLoading} isSuccess={isSuccess} text="added" />}
@@ -97,8 +103,10 @@ const Addbook = () => {
                   onChangeText={(text) => handleChange('title', text)}
                   placeholderTextColor="#fff"
                   />
+                  {displayError && errors.title ? (<Text style={addBookStyles.errorText}>{errors.title}</Text>) : null}
+                  
               </View>
-
+              
               <View  style={addBookStyles.adminAddBookInputs}>
 
                   <TextInput placeholder='BOOK ISBN...' 
@@ -107,9 +115,10 @@ const Addbook = () => {
                    onChangeText={(text) => handleChange('isbn', text)}
                    placeholderTextColor="#fff"
                    />
-
+                   {displayError && errors.isbn ? (<Text style={addBookStyles.errorText}>{errors.isbn}</Text>) : null}
+                    
               </View>
-
+              
               <View style={addBookStyles.adminAddBookInputs} >
 
                   <TextInput placeholder='AUTHORS...'
@@ -118,7 +127,8 @@ const Addbook = () => {
                   onChangeText={(text)=> handleChange('authors', text)}
                   placeholderTextColor="#fff"
                    />
-
+                   {displayError && errors.authors ? (<Text style={addBookStyles.errorText}>{errors.authors}</Text>) : null}
+                
               </View>
 
               <View style={addBookStyles.adminAddBookInputs} >
@@ -129,7 +139,8 @@ const Addbook = () => {
                   onChangeText={(text)=> handleChange('category', text)}  
                   placeholderTextColor="#fff"
                    />
-
+                   {displayError && errors.category ? (<Text style={addBookStyles.errorText}>{errors.category}</Text>) : null}
+                  
               </View>
 
               <View style={addBookStyles.adminAddBookInputs} >
@@ -140,6 +151,8 @@ const Addbook = () => {
                    placeholderTextColor="#fff"
                     keyboardType='phone-pad'
                    />
+                   {displayError && errors.price ? (<Text style={addBookStyles.errorText}>{errors.price}</Text>) : null}
+                   
               </View>
 
               <View style={addBookStyles.adminAddBookFileUploadButtonContainer} onTouchEnd={()=> dispatch(setValue(true))}  >
@@ -150,7 +163,9 @@ const Addbook = () => {
                           <Icon name="upload" style={addBookStyles.adminAddBookUploadIcon}/>
                       </View>
               </View>
-
+              {displayError && errors.image ? (<Text style={addBookStyles.errorText}>{errors.image}</Text>) : null}
+            
+              
               <View style={addBookStyles.adminAddBookToDatabase}>
                 <TouchableOpacity style={addBookStyles.adminAddBookToDatabaseButton} onPress={handleSubmit} disabled={isLoading}>
                   <Text style={addBookStyles.adminAddBookToDatabaseText}>{isLoading? 'SUBMITTING': 'ADD DATA TO DATABASE'}  </Text>

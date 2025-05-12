@@ -1,16 +1,45 @@
 import { View, Text } from 'react-native'
-import React, { useEffect } from 'react'
-import { ActivityIndicator } from 'react-native'
-import LottieView from 'lottie-react-native'
+import { useEffect, useRef, useState } from 'react'
+import { ActivityIndicator, Animated } from 'react-native'
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen'
+import { resetDeleteStatus } from '../redux/DeleteSuccessLoad'
+import { useDispatch } from 'react-redux'
+import LottieView from 'lottie-react-native'
 import sucessLoad from '../../styles/sharedComponents/SuccessLoadingModal'
+
+
 const SucessLoadingModal =({isLoading, isSuccess, text}) => {
 
+    const fadeAnim = useRef(new Animated.Value(1)).current;
+    const [visible, setVisible] = useState(true);
+    const dispatch=useDispatch()
      
+    useEffect(()=>{
+
+        let timer;
+        if(isSuccess){
+
+          timer=setTimeout(()=>{
+             Animated.timing(fadeAnim, {
+                toValue: 0,
+                duration: 1000,
+                useNativeDriver: true,
+             }).start(() =>{ 
+                setVisible(false)
+                dispatch(resetDeleteStatus())
+            })
+
+        }, 6000) }
+
+        return ()=> clearTimeout(timer)
+
+    }, [isSuccess])
 
 
+     if (!visible) return null;
+     
   return (<>
-    <View style={sucessLoad.containerWrapper}>
+    <Animated.View style={[sucessLoad.containerWrapper, { opacity: fadeAnim }]}  >
         <View style={sucessLoad.container}>
 
             {isLoading && ( <View style={sucessLoad.loadingWrapper}>
@@ -19,7 +48,8 @@ const SucessLoadingModal =({isLoading, isSuccess, text}) => {
             
             
             {isSuccess &&
-            (<View style={sucessLoad.successWrapper}>
+
+           ( <View style={sucessLoad.successWrapper}>
                
                 <LottieView
                  source={require('../../assets/success.json')}
@@ -29,11 +59,10 @@ const SucessLoadingModal =({isLoading, isSuccess, text}) => {
                   /> 
 
                   <Text style={sucessLoad.text}>Book {text} successfuly</Text>
-            </View>)    }
-           
+            </View>   ) }
 
         </View>
-    </View>
+    </Animated.View>
 
          </>)
 }
