@@ -4,13 +4,12 @@ import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 const signupStyles=StyleSheet.create({
     container:{
-       borderColor:"red" ,
-       borderStyle:"solid",
-       borderWidth:2,
-       backgroundColor:"rgba(211,211,211,1)",
+       backgroundColor:"rgba(0,0,0,0.8)",
        height:"100%",
        justifyContent:"center",
-       alignItems:"center"
+       alignItems:"center", 
+       position:"absolute",
+       zIndex:2
     },
     wrapper:{
         padding:"1%",

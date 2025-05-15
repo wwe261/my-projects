@@ -6,7 +6,7 @@ import {supabase} from '../../../backend/database/connectDatabase'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 import addBookStyles from '../../../styles/admin/Addbook'
-import {validateInput} from '../../adminFunctions/validateInput'
+import {validateInput} from '../adminFunctions/validateInput'
 import { useDispatch, useSelector } from 'react-redux'
 import { setValue } from '@/src/redux/openPickImageSlicer'
 import { cameraPermissions } from '@/src/sharedFunctions/cameraPermissions'

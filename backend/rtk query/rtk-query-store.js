@@ -20,7 +20,7 @@ import updateSearchResultsReducer from '../../src/redux/updateSearchResult'
 import UpdateBookInputValuesReducer from '../../src/redux/UpdateBookInputValue'
 import updateImageUriReducer from '../../src/redux/updateImageUri'
 import DeleteSuccessLoadReducer from '../../src/redux/DeleteSuccessLoad'
-
+import isUserLoggedInReducer from '../../src/redux/frontend/isLoggedIn'
 const rootReducer=combineReducers({
     pickImage:openPickImageReducer,
     imageUri:imageUriReducer,
@@ -37,12 +37,13 @@ const rootReducer=combineReducers({
     updateResults:updateSearchResultsReducer,
     updateBookInputValues:UpdateBookInputValuesReducer,
     updateImageUri:updateImageUriReducer,
-    deleteSuccessLoad:DeleteSuccessLoadReducer
+    deleteSuccessLoad:DeleteSuccessLoadReducer,
+    isLoggedIn:isUserLoggedInReducer
 
 })
 const persistConfig={key:'root',storage, version:1, blacklist: [productsApi.reducerPath, 
                                                                 'pickImage', 'deleteConfirmationModal',
-                                                                 'deleteId', , 'deleteUri', 'deleteSuccessLoad'  ]}
+                                                                 'deleteId', , 'deleteUri', 'deleteSuccessLoad', 'isLoggedIn'  ]}
                                                                  
 const persistedState=persistReducer(persistConfig,rootReducer)
 

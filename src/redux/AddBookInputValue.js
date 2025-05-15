@@ -18,8 +18,10 @@ const addBookInputValues=createSlice({
     initialState,
     reducers:{
        updateFields:(state,action)=>{
+
           const {name,value}=action.payload
           state.bookFormData[name]=value
+          
        },
        resetForm:(state)=>{
         state.bookFormData=initialState.bookFormData
